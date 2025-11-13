@@ -1,0 +1,66 @@
+# Create A Project
+
+## Task Query
+create a project
+
+## Application
+Linear
+
+## Workflow Steps
+
+This workflow captures 8 distinct UI states:
+
+### Step 1: BrowserStateHistory(url='https://linear.app', title='Initial Actions', tabs=[], interacted_element=[None], screenshot_path=None)
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Found initial url and automatically loaded it. Navigated to https://linear.app', extracted_content='🔗 Navigated to https://linear.app', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+
+---
+
+### Step 2: BrowserStateHistory(url='https://linear.app/', title='Linear – Plan and build products', tabs=[TabInfo(url='https://linear.app/', title='Linear – Plan and build products', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=184, backend_node_id=201, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'draggable': 'false', 'data-radix-collection-item': '', 'class': 'Header-module__PXV_2W__anchor Link-module__TqD7sG__root', 'rel': 'noopener', 'href': '/login'}, bounds=DOMRect(x=1177.7578125, y=16.0, width=61.8359375, height=32.0), x_path='html/body/div[2]/div/header/nav/div/div/ul/div/li[3]/span/a', element_hash=108122992461248341)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_1.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Log in"', include_extracted_content_only_once=False, metadata={'click_x': 1208.67578125, 'click_y': 32.0}, include_in_memory=False)]
+
+---
+
+### Step 3: BrowserStateHistory(url='https://linear.app/', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_2.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Waited for 3 seconds', extracted_content='Waited for 3 seconds', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+
+---
+
+### Step 4: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=2980, backend_node_id=3030, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.0, y=467.0, width=288.0, height=48.0), x_path='html/body/div[1]/div/div[1]/div/div/div/div[1]/button[2]', element_hash=1528984042492111678)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_3.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata={'click_x': 840.0, 'click_y': 491.0}, include_in_memory=False)]
+
+---
+
+### Step 5: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3266, backend_node_id=3030, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.15625, y=467.0625, width=287.6875, height=47.953125), x_path='html/body/div[1]/div/div[1]/div/div/div/div[1]/button[2]', element_hash=1528984042492111678)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_4.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+
+---
+
+### Step 6: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3557, backend_node_id=3070, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='INPUT', attributes={'data-1p-ignore': 'true', 'placeholder': 'Enter your email address…', 'autocomplete': 'off', 'class': 'sc-iaHxGD sc-bIYZwL kuOWID cPOoDg', 'type': 'email', 'value': '', 'name': 'email'}, bounds=DOMRect(x=696.0, y=403.0, width=288.0, height=46.0), x_path='html/body/div[1]/div/div[1]/div/div/div/form/div/div/input', element_hash=8369304211302984308), DOMInteractedElement(node_id=3562, backend_node_id=3072, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'submit', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.0, y=465.0, width=288.0, height=48.0), x_path='html/body/div[1]/div/div[1]/div/div/div/form/div/button', element_hash=6745398142211611163)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_5.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'demo@example.com'", extracted_content="Typed 'demo@example.com'", include_extracted_content_only_once=False, metadata={'input_x': 840.0, 'input_y': 426.0}, include_in_memory=False), ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata={'click_x': 840.0, 'click_y': 489.0}, include_in_memory=False)]
+
+---
+
+### Step 7: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_6.png')
+
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Scrolled down 938px', extracted_content='🔍 Scrolled down 938px', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+
+---
+
+### Step 8: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_7.png')
+
+**Action:** [ActionResult(is_done=True, success=False, error=None, attachments=[], long_term_memory='Task completed: False - I have navigated to Linear.app and attempted to log in to demonstrate project creation. I successful - 443 more characters', extracted_content="I have navigated to Linear.app and attempted to log in to demonstrate project creation. I successfully reached the stage where Linear sends a temporary login link to the provided email address (demo@example.com). Since I do not have access to a valid email inbox, I cannot proceed past the authentication step to access the application's main interface and demonstrate the project creation process. The next step, if I had access, would be to click the magic link in the email or enter the code manually to gain access to the Linear workspace.", include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+
+---
+
+## Metadata
+
+- **Captured:** 2025-11-13T16:53:43.242129
+- **Total States:** 8
+- **App:** linear
+

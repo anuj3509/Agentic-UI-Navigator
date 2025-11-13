@@ -1,0 +1,229 @@
+"""
+Documentation generator for creating markdown documentation.
+"""
+import json
+from pathlib import Path
+from typing import Dict, Any, List
+
+
+class DocsGenerator:
+    """Generates markdown documentation for datasets."""
+    
+    def __init__(self, dataset_dir: str = "dataset"):
+        """
+        Initialize docs generator.
+        
+        Args:
+            dataset_dir: Base dataset directory
+        """
+        self.dataset_dir = Path(dataset_dir)
+    
+    def generate_workflow_markdown(
+        self,
+        task_dir: str,
+        metadata: Dict[str, Any]
+    ) -> str:
+        """
+        Generate markdown documentation for a single workflow.
+        
+        Args:
+            task_dir: Path to the task directory
+            metadata: Workflow metadata
+            
+        Returns:
+            Path to the generated markdown file
+        """
+        task_path = Path(task_dir)
+        
+        # Start markdown content
+        md_content = f"""# {metadata['task_name'].replace('_', ' ').title()}
+
+## Task Query
+{metadata['task_query']}
+
+## Application
+{metadata['app_name'].title()}
+
+## Workflow Steps
+
+This workflow captures {metadata['num_states']} distinct UI states:
+
+"""
+        
+        # Add each state
+        for state in metadata['states']:
+            step_num = state['step']
+            description = state.get('description', 'UI State')
+            action = state.get('action_taken', '')
+            reasoning = state.get('reasoning', '')
+            screenshot_rel = state.get('screenshot', '')
+            
+            md_content += f"### Step {step_num}: {description}\n\n"
+            
+            if action:
+                md_content += f"**Action:** {action}\n\n"
+            
+            if reasoning:
+                md_content += f"**Reasoning:** {reasoning}\n\n"
+            
+            # Add screenshot
+            if screenshot_rel:
+                md_content += f"![Step {step_num}]({screenshot_rel})\n\n"
+            
+            md_content += "---\n\n"
+        
+        # Add metadata footer
+        md_content += f"""## Metadata
+
+- **Captured:** {metadata.get('timestamp', 'N/A')}
+- **Total States:** {metadata['num_states']}
+- **App:** {metadata['app_name']}
+
+"""
+        
+        # Save markdown file
+        md_path = task_path / "workflow.md"
+        with open(md_path, 'w') as f:
+            f.write(md_content)
+        
+        print(f"✓ Generated workflow documentation: {md_path}")
+        return str(md_path)
+    
+    def generate_dataset_readme(self) -> str:
+        """
+        Generate main README for the dataset.
+        
+        Returns:
+            Path to the generated README
+        """
+        # Load summary
+        summary_path = self.dataset_dir / "summary.json"
+        if not summary_path.exists():
+            print("No summary.json found, generating basic README")
+            summary = {
+                "total_workflows": 0,
+                "total_states_captured": 0,
+                "apps": {}
+            }
+        else:
+            with open(summary_path, 'r') as f:
+                summary = json.load(f)
+        
+        # Generate README content
+        md_content = f"""# AI UI Navigator Dataset
+
+This dataset contains captured UI workflows for various web applications, demonstrating how to perform common tasks.
+
+## Overview
+
+- **Total Workflows:** {summary['total_workflows']}
+- **Total UI States Captured:** {summary['total_states_captured']}
+- **Applications:** {len(summary['apps'])}
+
+## Dataset Structure
+
+Each workflow is organized as follows:
+
+```
+dataset/
+├── {app_name}/
+│   ├── {task_name}/
+│   │   ├── screenshots/
+│   │   │   ├── 01_state_description.png
+│   │   │   ├── 02_state_description.png
+│   │   │   └── ...
+│   │   ├── metadata.json
+│   │   └── workflow.md
+```
+
+## Applications and Workflows
+
+"""
+        
+        # Add each app
+        for app_name, app_data in summary.get('apps', {}).items():
+            md_content += f"### {app_name.title()}\n\n"
+            md_content += f"**Total Workflows:** {app_data['num_workflows']}\n\n"
+            md_content += f"**Total States:** {app_data['total_states']}\n\n"
+            
+            md_content += "#### Workflows:\n\n"
+            
+            for workflow in app_data['workflows']:
+                task_name = workflow['task_name'].replace('_', ' ').title()
+                task_query = workflow['task_query']
+                num_states = workflow['num_states']
+                path = workflow['path']
+                
+                md_content += f"- **{task_name}**\n"
+                md_content += f"  - Query: _{task_query}_\n"
+                md_content += f"  - States Captured: {num_states}\n"
+                md_content += f"  - [View Workflow]({path}/workflow.md)\n\n"
+            
+            md_content += "\n"
+        
+        # Add explanation section
+        md_content += """## About This Dataset
+
+This dataset was generated by an AI agent that:
+
+1. Receives natural language task queries (e.g., "How do I create a project?")
+2. Uses GPT-4V to analyze screenshots and make navigation decisions
+3. Automatically navigates the web application
+4. Captures screenshots at each significant UI state
+5. Generates documentation for each workflow
+
+The goal is to demonstrate UI workflows that include non-URL states like modals, dropdowns, and forms that traditional URL-based scraping would miss.
+
+## Dataset Usage
+
+Each workflow includes:
+
+- **screenshots/**: Numbered screenshots showing each UI state
+- **metadata.json**: Structured data about each step
+- **workflow.md**: Human-readable documentation with embedded images
+
+## Methodology
+
+The system uses:
+
+- **Playwright** for browser automation
+- **GPT-4V** for visual reasoning and action decisions
+- **Image hashing** for state change detection
+- **Vision-guided navigation** for generalizability across apps
+
+This approach prioritizes generalizability over hardcoded selectors, making it adaptable to new applications and tasks.
+"""
+        
+        # Save README
+        readme_path = self.dataset_dir / "README.md"
+        with open(readme_path, 'w') as f:
+            f.write(md_content)
+        
+        print(f"✓ Generated dataset README: {readme_path}")
+        return str(readme_path)
+    
+    def generate_all_docs(self):
+        """Generate all documentation for the dataset."""
+        print("\nGenerating documentation...")
+        
+        # Generate workflow docs for each task
+        for app_dir in self.dataset_dir.iterdir():
+            if not app_dir.is_dir() or app_dir.name.startswith('.'):
+                continue
+            
+            for task_dir in app_dir.iterdir():
+                if not task_dir.is_dir():
+                    continue
+                
+                metadata_path = task_dir / "metadata.json"
+                if metadata_path.exists():
+                    with open(metadata_path, 'r') as f:
+                        metadata = json.load(f)
+                    
+                    self.generate_workflow_markdown(str(task_dir), metadata)
+        
+        # Generate main README
+        self.generate_dataset_readme()
+        
+        print("✓ Documentation generation complete")
+

@@ -1,0 +1,26 @@
+# Environment variables
+.env
+
+# Virtual environment
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Playwright
+.playwright/
+
+# Temporary files
+temp_*/
+
+# Old/unused code (archived)
+old_files/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

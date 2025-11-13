@@ -1,0 +1,99 @@
+# Web Application Configurations
+# Add any web application here - no code changes needed!
+# The system will automatically work with any app you define.
+
+linear:
+  name: "Linear"
+  base_url: "https://linear.app"
+  login_url: "https://linear.app/login"
+  requires_auth: true
+  # Optional: Custom login selectors if generic ones don't work
+  # login_selectors:
+  #   email: "input[type='email']"
+  #   password: "input[type='password']"
+  #   submit: "button[type='submit']"
+  
+notion:
+  name: "Notion"
+  base_url: "https://www.notion.so"
+  login_url: "https://www.notion.so/login"
+  requires_auth: true
+
+github:
+  name: "GitHub"
+  base_url: "https://github.com"
+  login_url: "https://github.com/login"
+  requires_auth: true
+
+linkedin:
+  name: "LinkedIn"
+  base_url: "https://www.linkedin.com"
+  login_url: "https://www.linkedin.com/login"
+  requires_auth: true
+
+reddit:
+  name: "Reddit"
+  base_url: "https://www.reddit.com"
+  login_url: "https://www.reddit.com/login"
+  requires_auth: true
+
+calendar:
+  name: "Google Calendar"
+  base_url: "https://calendar.google.com"
+  login_url: "https://accounts.google.com"
+  requires_auth: true
+
+gmail:
+  name: "Gmail"
+  base_url: "https://mail.google.com"
+  login_url: "https://accounts.google.com"
+  requires_auth: true
+
+slack:
+  name: "Slack"
+  base_url: "https://slack.com"
+  login_url: "https://slack.com/signin"
+  requires_auth: true
+
+trello:
+  name: "Trello"
+  base_url: "https://trello.com"
+  login_url: "https://trello.com/login"
+  requires_auth: true
+
+asana:
+  name: "Asana"
+  base_url: "https://app.asana.com"
+  login_url: "https://app.asana.com/-/login"
+  requires_auth: true
+
+jira:
+  name: "Jira"
+  base_url: "https://www.atlassian.com/software/jira"
+  login_url: "https://id.atlassian.com/login"
+  requires_auth: true
+
+figma:
+  name: "Figma"
+  base_url: "https://www.figma.com"
+  login_url: "https://www.figma.com/login"
+  requires_auth: true
+
+# Public apps that don't require login
+youtube:
+  name: "YouTube"
+  base_url: "https://www.youtube.com"
+  requires_auth: false
+
+wikipedia:
+  name: "Wikipedia"
+  base_url: "https://www.wikipedia.org"
+  requires_auth: false
+
+stackoverflow:
+  name: "Stack Overflow"
+  base_url: "https://stackoverflow.com"
+  requires_auth: false
+
+# Add any other app here following the same pattern!
+# The system will automatically work with it.

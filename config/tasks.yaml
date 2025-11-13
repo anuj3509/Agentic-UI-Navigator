@@ -1,0 +1,56 @@
+# Task Configurations
+# Define tasks for any web application
+# Add new apps and tasks here - no code changes needed!
+
+linear:
+  - name: "create_project"
+    task_query: "Create a new project called 'Test Project'"
+  - name: "filter_issues"
+    task_query: "Filter issues by assignee"
+  - name: "create_issue_with_labels"
+    task_query: "Create a new issue and add labels to it"
+
+notion:
+  - name: "filter_database"
+    task_query: "Filter a database view"
+  - name: "create_page_from_template"
+    task_query: "Create a new page from a template"
+
+github:
+  - name: "create_repository"
+    task_query: "Create a new repository"
+  - name: "search_issues"
+    task_query: "Search for open issues in a repository"
+  - name: "create_pull_request"
+    task_query: "Create a pull request"
+
+linkedin:
+  - name: "job_search"
+    task_query: "Search for AI engineer jobs"
+  - name: "view_profile"
+    task_query: "View my profile"
+
+reddit:
+  - name: "browse_subreddit"
+    task_query: "Browse r/programming subreddit"
+  - name: "search_posts"
+    task_query: "Search for posts about Python"
+
+# Add tasks for any other app from apps.yaml
+# The system will automatically execute them!
+
+slack:
+  - name: "send_message"
+    task_query: "Send a message to a channel"
+
+trello:
+  - name: "create_board"
+    task_query: "Create a new board"
+  - name: "add_card"
+    task_query: "Add a card to a list"
+
+youtube:
+  - name: "search_videos"
+    task_query: "Search for AI tutorials"
+  - name: "browse_trending"
+    task_query: "Browse trending videos"
