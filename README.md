@@ -2,6 +2,8 @@
 
 Ask "How do I do X in Y app?" and the AI generates a step-by-step visual guide by actually doing it in the browser.
 
+✨ **NEW**: Zero configuration needed! Works with ANY web app instantly - no need to add apps to config files.
+
 ## Setup (2 minutes)
 
 ```bash
@@ -17,14 +19,14 @@ echo "OPENAI_API_KEY=sk-your-key-here" > .env
 
 ## Usage
 
-**Just ask a question:**
+**Just ask a question about ANY web app:**
 
 ```bash
 python app.py "How do I create a project in Linear?"
 ```
 
 **What happens:**
-1. AI understands your question (extracts app + task)
+1. AI understands your question (extracts app + task + discovers URL automatically)
 2. Opens browser to the app
 3. **Detects if login is required** - pauses and waits for you to log in
 4. **Automatically continues** when login is complete
@@ -32,11 +34,18 @@ python app.py "How do I create a project in Linear?"
 6. Captures screenshots at each UI state
 7. Generates guide with screenshots in `dataset/` folder
 
-**More examples:**
+**Works with ANY app - no configuration needed:**
 ```bash
+# Popular apps
 python app.py "How do I filter a database in Notion?"
 python app.py "How to search issues in GitHub?"
 python app.py "How to find videos on YouTube?"
+
+# Works immediately with ANY web app:
+python app.py "How to create a task in ClickUp?"
+python app.py "How to schedule a meeting in Calendly?"
+python app.py "How to design a page in Webflow?"
+python app.py "How to manage tasks in Monday.com?"
 ```
 
 **🔐 Secure Login:**
@@ -68,15 +77,25 @@ dataset/linear/create_a_project/
   README.md
 ```
 
-## Pre-configured Sites
+## Smart URL Discovery
 
-**No login needed:**
-- youtube, reddit, wikipedia, stackoverflow
+🎯 **Zero Configuration**: The system uses AI to automatically discover the correct URL for any web app!
 
-**Need login (manual login in browser - no credentials needed!):**
-- github, notion, linear, linkedin, slack, gmail, trello, asana, jira, figma
+**How it works:**
+1. You ask about any app (e.g., "How to use Figma?")
+2. LLM identifies the app name and looks up its URL
+3. System caches the URL for future use
+4. No manual configuration needed!
 
-The browser will open and **continuously monitor** until you log in. Much more secure than storing passwords!
+**Supported automatically:**
+- ✅ Any public web application
+- ✅ Popular SaaS tools (Linear, Notion, GitHub, etc.)
+- ✅ Google services (Docs, Sheets, Calendar, Gmail)
+- ✅ Project management (Asana, Trello, Jira, Monday.com, ClickUp)
+- ✅ Design tools (Figma, Canva, Webflow)
+- ✅ And literally any other web app you can think of!
+
+**Optional:** You can still add apps manually to `config/apps.yaml` for custom or internal tools.
 
 ## Examples
 

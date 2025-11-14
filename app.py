@@ -18,26 +18,54 @@ from datetime import datetime
 import time
 
 
+def load_url_cache() -> dict:
+    """Load cached app URLs from file."""
+    cache_file = Path("config/url_cache.json")
+    if cache_file.exists():
+        try:
+            with open(cache_file, 'r') as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+
+def save_url_cache(cache: dict):
+    """Save app URLs to cache file."""
+    cache_file = Path("config/url_cache.json")
+    cache_file.parent.mkdir(exist_ok=True)
+    with open(cache_file, 'w') as f:
+        json.dump(cache, f, indent=2)
+
+
 async def parse_question(question: str) -> dict:
-    """Parse natural language question to extract app and task."""
+    """Parse natural language question to extract app, task, URL, and auth requirements."""
     load_dotenv()
     
     # Use OpenAI directly for parsing (simpler than Browser Use LLM)
     from openai import AsyncOpenAI
     client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     
-    prompt = f"""Extract the application name and task from this question:
+    # Check if we have a cached URL for this app
+    url_cache = load_url_cache()
+    
+    prompt = f"""Extract the application name, task, URL, and authentication requirements from this question:
 
 Question: "{question}"
 
 Return a JSON object with:
 - app: The application name (lowercase, one word like "linear", "notion", "github", etc.)
 - task: The task to perform (action phrase like "create a project", "filter a database", etc.)
+- url: The main web application URL for this app
+- requires_auth: true if the app typically requires login, false otherwise
 
 Examples:
-- "How do I create a project in Linear?" -> {{"app": "linear", "task": "create a project"}}
-- "How do I filter a database in Notion?" -> {{"app": "notion", "task": "filter a database"}}
-- "How to search issues in GitHub?" -> {{"app": "github", "task": "search issues"}}
+- "How do I create a project in Linear?" -> {{"app": "linear", "task": "create a project", "url": "https://linear.app", "requires_auth": true}}
+- "How do I filter a database in Notion?" -> {{"app": "notion", "task": "filter a database", "url": "https://www.notion.so", "requires_auth": true}}
+- "How to search issues in GitHub?" -> {{"app": "github", "task": "search issues", "url": "https://github.com", "requires_auth": false}}
+- "How to find videos on YouTube?" -> {{"app": "youtube", "task": "find videos", "url": "https://www.youtube.com", "requires_auth": false}}
+- "How to create a board in Trello?" -> {{"app": "trello", "task": "create a board", "url": "https://trello.com", "requires_auth": true}}
+- "How to search for Python on Stack Overflow?" -> {{"app": "stackoverflow", "task": "search for Python", "url": "https://stackoverflow.com", "requires_auth": false}}
 
 Return ONLY the JSON object."""
 
@@ -54,7 +82,19 @@ Return ONLY the JSON object."""
     elif "```" in content:
         content = content.split("```")[1].split("```")[0].strip()
     
-    return json.loads(content)
+    parsed = json.loads(content)
+    
+    # Cache the URL for future use
+    app_name = parsed.get('app')
+    if app_name and app_name not in url_cache:
+        url_cache[app_name] = {
+            'url': parsed.get('url'),
+            'requires_auth': parsed.get('requires_auth', True)
+        }
+        save_url_cache(url_cache)
+        print(f"💾 Cached URL for {app_name}")
+    
+    return parsed
 
 
 def get_app_url(app_name: str) -> str:
@@ -264,18 +304,22 @@ async def generate_guide(question: str):
     print("="*70)
     print(f"\nQuestion: {question}\n")
     
-    # Parse question
+    # Parse question (now includes URL discovery!)
     print("🤔 Understanding your question...")
     parsed = await parse_question(question)
     
     app_name = parsed.get('app')
     task = parsed.get('task')
+    app_url = parsed.get('url')  # Get URL directly from LLM
+    requires_auth = parsed.get('requires_auth', True)
     
     print(f"✓ App detected: {app_name}")
-    print(f"✓ Task detected: {task}\n")
-    
-    # Get app URL
-    app_url = get_app_url(app_name)
+    print(f"✓ Task detected: {task}")
+    print(f"✓ URL found: {app_url}")
+    if requires_auth:
+        print(f"ℹ️  This app may require login\n")
+    else:
+        print(f"ℹ️  This app typically doesn't require login\n")
     
     # Create temp directory for screenshots
     screenshots_dir = Path(f"temp_browser_use_screenshots_{datetime.now().strftime('%Y%m%d_%H%M%S')}")

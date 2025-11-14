@@ -1,0 +1,50 @@
+{
+  "linear": {
+    "url": "https://linear.app",
+    "requires_auth": true
+  },
+  "youtube": {
+    "url": "https://www.youtube.com",
+    "requires_auth": false
+  },
+  "trello": {
+    "url": "https://trello.com",
+    "requires_auth": true
+  },
+  "figma": {
+    "url": "https://www.figma.com",
+    "requires_auth": true
+  },
+  "clickup": {
+    "url": "https://app.clickup.com",
+    "requires_auth": true
+  },
+  "slack": {
+    "url": "https://slack.com",
+    "requires_auth": true
+  },
+  "buffer": {
+    "url": "https://buffer.com",
+    "requires_auth": true
+  },
+  "typeform": {
+    "url": "https://www.typeform.com",
+    "requires_auth": true
+  },
+  "gitlab": {
+    "url": "https://gitlab.com",
+    "requires_auth": true
+  },
+  "calendly": {
+    "url": "https://calendly.com",
+    "requires_auth": true
+  },
+  "discord": {
+    "url": "https://discord.com",
+    "requires_auth": true
+  },
+  "notion": {
+    "url": "https://www.notion.so",
+    "requires_auth": true
+  }
+}
