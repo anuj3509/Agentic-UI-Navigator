@@ -18,6 +18,9 @@ temp_*/
 # Old/unused code (archived)
 old_files/
 
+# Browser profile (persistent sessions)
+browser_profile/
+
 # IDE
 .vscode/
 .idea/

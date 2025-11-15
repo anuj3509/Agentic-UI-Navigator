@@ -19,6 +19,12 @@ import time
 import imagehash
 from PIL import Image
 import io
+import logging
+
+# Reduce Browser Use logging verbosity
+logging.getLogger('browser_use').setLevel(logging.WARNING)
+logging.getLogger('openai').setLevel(logging.WARNING)
+logging.getLogger('httpx').setLevel(logging.WARNING)
 
 
 def load_url_cache() -> dict:
@@ -144,16 +150,41 @@ def save_to_dataset(app_name: str, task: str, history: AgentHistoryList, screens
             if item.state.screenshot_path:
                 browser_use_screenshots.append(Path(item.state.screenshot_path))
     
-    # Copy Browser Use's screenshots if available
+    # Copy Browser Use's screenshots if available, filtering out login pages
     if browser_use_screenshots:
         print(f"📸 Found {len(browser_use_screenshots)} screenshots from Browser Use")
-        for i, screenshot_path in enumerate(browser_use_screenshots, start=1):
+        filtered_screenshots = []
+        
+        for idx, screenshot_path in enumerate(browser_use_screenshots):
             if screenshot_path.exists():
-                new_filename = f"{i:02d}_step_{i}.png"
-                new_path = screenshots_path / new_filename
-                shutil.copy2(screenshot_path, new_path)
-                screenshot_files.append(str(new_path.relative_to(dataset_path)))
-                print(f"   ✓ Copied {screenshot_path.name} -> {new_filename}")
+                # Check if this is a login page by looking at the corresponding history item
+                skip_screenshot = False
+                if idx < len(history.history):
+                    item = history.history[idx]
+                    state_str = str(item.state).lower()
+                    result_str = str(item.result).lower() if hasattr(item, 'result') else ""
+                    
+                    # Skip if URL contains login/auth keywords or action mentions login
+                    # Be specific: check for login-related content, not generic "wait"
+                    if any(keyword in state_str or keyword in result_str 
+                           for keyword in ['login', 'sign in', 'signin', 'sign-in', 
+                                          '/auth/', 'google.com/signin', 'accounts.google', 
+                                          'sso', 'log in', 'authenticate', 'password',
+                                          'oauth', 'saml']):
+                        skip_screenshot = True
+                        print(f"   ⊘ Skipped {screenshot_path.name} (login/auth page)")
+                
+                if not skip_screenshot:
+                    filtered_screenshots.append(screenshot_path)
+        
+        print(f"📸 Filtered to {len(filtered_screenshots)} task screenshots (removed {len(browser_use_screenshots) - len(filtered_screenshots)} login screenshots)")
+        
+        for i, screenshot_path in enumerate(filtered_screenshots, start=1):
+            new_filename = f"{i:02d}_step_{i}.png"
+            new_path = screenshots_path / new_filename
+            shutil.copy2(screenshot_path, new_path)
+            screenshot_files.append(str(new_path.relative_to(dataset_path)))
+            print(f"   ✓ Copied {screenshot_path.name} -> {new_filename}")
     
     # Also check our custom screenshots directory (fallback)
     elif screenshots_dir and screenshots_dir.exists():
@@ -302,9 +333,9 @@ async def wait_for_manual_login(browser, max_wait_time: int = 180):
 
 async def generate_guide(question: str):
     """Generate UI guide using Browser Use framework."""
-    print("\n" + "="*70)
-    print("AI UI Guide Generator (Browser Use)")
-    print("="*70)
+    print("\n" + "="*40)
+    print("Agentic UI Guide Generator")
+    print("="*40)
     print(f"\nQuestion: {question}\n")
     
     # Parse question (now includes URL discovery!)
@@ -320,13 +351,17 @@ async def generate_guide(question: str):
     print(f"✓ Task detected: {task}")
     print(f"✓ URL found: {app_url}")
     if requires_auth:
-        print(f"ℹ️  This app may require login\n")
+        print(f"Note:This app may require login\n")
     else:
-        print(f"ℹ️  This app typically doesn't require login\n")
+        print(f"Note: This app typically doesn't require login\n")
     
     # Create temp directory for screenshots
     screenshots_dir = Path(f"temp_browser_use_screenshots_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
     screenshots_dir.mkdir(exist_ok=True)
+    
+    # Create persistent user data directory for browser sessions
+    user_data_dir = Path("browser_profile")
+    user_data_dir.mkdir(exist_ok=True)
     
     # Create enhanced task description
     enhanced_task = f"""Navigate to {app_url} and {task}.
@@ -344,20 +379,30 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     print(f"Generating guide: How to {task} in {app_name.title()}")
     print("="*70 + "\n")
     
-    # Initialize Browser Use components
-    browser = Browser()
+    # Initialize Browser Use components with persistent user data directory
+    # This allows the browser to save and reuse login sessions
+    browser = Browser(
+        headless=False,
+        user_data_dir=str(user_data_dir.absolute()),
+        highlight_elements=False,  # Disable visual element highlighting
+        dom_highlight_elements=False,  # Disable DOM highlighting
+    )
     
     # Browser Use will automatically use OPENAI_API_KEY from .env
     # Passing llm=None makes it use OpenAI GPT-4o by default
-    print("ℹ️  Using OpenAI GPT-4o for navigation")
+    print("⦿‣ Using OpenAI GPT-4o for navigation")
     print("   (Optional: Set BROWSER_USE_API_KEY for optimized ChatBrowserUse model)\n")
     
-    # First, navigate to the app to check if login is needed
-    print(f"🌐 Opening {app_url}...")
-    
-    # Browser Use automatically creates session when agent runs
-    # We'll check for login in the initial actions instead
+    # PRE-FLIGHT LOGIN CHECK: For auth-required sites, integrate login check INTO the main agent task
+    print(f"‣ Opening {app_url}...")
     login_detected = [False]  # Track if we've shown login prompt
+    pre_login_message_shown = [False]  # Track if we showed login message
+    
+    # For login-required sites, add manual pause
+    if requires_auth:
+        print("ℹ️  This site requires login.")
+        print("   The browser will open and navigate to the login page.")
+        print("   After navigation, you'll be prompted to log in.\n")
     
     # Callback to capture screenshots only on significant UI changes
     screenshot_counter = [0]  # Use list to modify in closure
@@ -367,26 +412,90 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     async def save_step_callback(state, action, step):
         """Save screenshot only when UI state changes significantly."""
         try:
-            # Browser Use stores the context in browser._context (private attr)
-            # Access the page through the browser session
-            if hasattr(browser, '_context') and browser._context and browser._context.pages:
-                current_page = browser._context.pages[0]
-            elif hasattr(browser, 'context') and browser.context and browser.context.pages:
-                current_page = browser.context.pages[0]
-            else:
-                print(f"⚠ Could not access browser page")
+            # Access the page using Browser Use's browser session
+            current_page = None
+            session = None
+            
+            # Get browser session
+            if hasattr(browser, '_context'):
+                session = browser._context
+            elif hasattr(browser, 'context'):
+                session = browser.context
+            
+            if session and hasattr(session, 'pages') and session.pages:
+                current_page = session.pages[0]
+            
+            if not current_page:
                 return
             
-            # Check if we hit a login page during navigation
-            if not login_detected[0]:
+            # Wait for UI to stabilize after actions
+            # 1. Wait for network activity to settle
+            try:
+                await current_page.wait_for_load_state('networkidle', timeout=3000)
+            except:
+                pass  # Continue even if timeout
+            
+            # 2. Wait for animations to complete
+            await asyncio.sleep(1.5)
+            
+            # 3. Remove Browser Use's visual highlights before screenshot
+            try:
+                # Remove orange highlight boxes that Browser Use adds
+                await current_page.evaluate("""
+                    () => {
+                        // Remove all elements with Browser Use's highlight classes/styles
+                        const highlights = document.querySelectorAll('[data-highlight], [data-browser-use-highlight], .browser-use-highlight');
+                        highlights.forEach(el => el.remove());
+                        
+                        // Remove inline styles that add orange borders
+                        const allElements = document.querySelectorAll('*');
+                        allElements.forEach(el => {
+                            if (el.style.outline && el.style.outline.includes('orange')) {
+                                el.style.outline = '';
+                            }
+                            if (el.style.border && el.style.border.includes('orange')) {
+                                el.style.border = '';
+                            }
+                        });
+                    }
+                """)
+                # Wait a bit more for the DOM to update
+                await asyncio.sleep(0.5)
+            except:
+                pass  # Continue even if cleanup fails
+            
+            # LOGIN DETECTION: Check if this is a login/auth page and handle it
+            if requires_auth and not login_detected[0]:
                 is_login = await detect_login_page(current_page)
                 if is_login:
                     login_detected[0] = True
-                    # Pause agent execution and wait for manual login
-                    await wait_for_manual_login(browser, max_wait_time=180)
+                    pre_login_message_shown[0] = True
+                    
+                    print("\n" + "="*70)
+                    print("🔐 LOGIN PAGE DETECTED - PAUSING AGENT")
+                    print("="*70)
+                    print("👤 Please log in manually in the browser window")
+                    print("   DO NOT CLOSE THE BROWSER")
+                    print("   The system will resume automatically once logged in")
+                    print(f"   (You have up to 5 minutes)")
+                    print("="*70 + "\n")
+                    
+                    # Wait for manual login - this pauses everything
+                    login_success = await wait_for_manual_login(browser, max_wait_time=300)
+                    
+                    if login_success:
+                        print("\n✓ Login successful! Resuming task execution...\n")
+                    else:
+                        print("\n⚠️  Login timeout or not confirmed. Attempting to continue anyway...\n")
+                    
+                    # Don't capture login page screenshots - return early
+                    return
             
-            # ✅ ADD: Wait for UI to stabilize after actions
-            await asyncio.sleep(1.5)  # Let animations/loading complete
+            # SKIP screenshot capture if we're still on a login/auth page
+            current_url = current_page.url.lower()
+            if any(pattern in current_url for pattern in ['login', 'signin', 'sign-in', 'auth', 'accounts.google', 'sso']):
+                # Skip login pages - don't capture these in the guide
+                return
             
             # Take screenshot in memory to check if state changed
             screenshot_bytes = await current_page.screenshot(full_page=True)
@@ -396,13 +505,14 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
             # Check if this is a significant change
             is_significant = False
             if last_screenshot_hash[0] is None:
-                # First screenshot is always significant
+                # First screenshot is always significant (after login)
                 is_significant = True
             else:
                 # Calculate hash difference (lower = more similar)
                 hash_diff = current_hash - last_screenshot_hash[0]
-                # Lower threshold to capture more intermediate states (was 5, now 3)
-                if hash_diff > 2:
+                # Lower value = more screenshots, Higher value = fewer screenshots
+                # Threshold 8 = only major UI changes (new pages, modals, search results)
+                if hash_diff > 6:
                     is_significant = True
             
             if is_significant:
@@ -429,35 +539,115 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
             print(f"⚠ Could not process screenshot: {e}")
     
     # Create task description for the agent
+    login_instruction = ""
+    if requires_auth:
+        login_instruction = """
+IMPORTANT - LOGIN HANDLING:
+- If you see a login page, WAIT and do nothing (the system will pause for manual login)
+- After seeing a login page, just wait for the page to change
+- DO NOT attempt to fill in login credentials
+"""
+    
     modified_task = f"""Navigate to {app_url} and {task}.
 
-Instructions:
-1. Go to {app_url}
-2. If you encounter a modal, popup, or dialog - close it first before proceeding
-3. Proceed to {task} step by step
-4. Once the task is demonstrated (showing the key steps), you can stop
+CRITICAL INSTRUCTIONS:
+1. Go to {app_url} (if not already there)
+2. Close any blocking modals, popups, or dialogs FIRST before proceeding
+3. Perform the task: {task}
+4. Be DECISIVE - once you've demonstrated the key steps, STOP immediately
+5. DO NOT repeat the same action more than twice
+6. If an action fails, try a different approach immediately{login_instruction}
 
-Note: The system will automatically handle login detection if needed. Continue with the task normally.
+COMPLETION CRITERIA - You are NOT done until:
+- For "search" tasks: 
+  * Type the search query
+  * Press Enter or click the Search/Submit button
+  * WAIT for results page to fully load
+  * Verify search results are visible (NOT the homepage!)
+- For "create" tasks: Form is filled AND submit/create button is visible in viewport (don't click it)
+- For "filter" tasks: Filters are applied and results shown
+- For "find" tasks: The target content is visible
+- For "join/navigate" tasks: Successfully reached the destination
 
-The goal is to SHOW the key steps of how to do this task, capturing important UI states like:
-- Opening menus/dropdowns
-- Filling forms
-- Clicking buttons
-- Navigation changes
-- Modal/dialog interactions"""
+IMPORTANT:
+- DO NOT mark task as complete until ALL criteria are met
+- For search tasks: Typing alone is NOT enough - you MUST see results
+- If you're stuck or repeating the SAME action 3+ times, try a different approach
+- Focus on completing the task correctly, not quickly
+
+The goal is to DEMONSTRATE the workflow efficiently, not to complete every minor detail."""
+    
+    # For auth sites: Open browser first, then pause for manual login
+    if requires_auth:
+        print("\n" + "="*70)
+        print("🔐 IMPORTANT: THIS SITE REQUIRES MANUAL LOGIN")
+        print("="*70)
+        print("Opening browser now...")
+        print("="*70 + "\n")
+        
+        # Start the browser and navigate to the URL
+        await browser.start()
+        print(f"🌐 Navigating to {app_url}...")
+        await browser.navigate_to(app_url)
+        await asyncio.sleep(3)  # Let page load
+        
+        print("\n" + "="*70)
+        print("✅ Browser is now open!")
+        print("\nOn FIRST RUN:")
+        print(f"  1. Log in to {app_url} in the Chromium browser window above")
+        print("  2. Complete the login process (including 2FA if needed)")
+        print("  3. Come back here and press ENTER to start the agent")
+        print("\nOn SUBSEQUENT RUNS:")
+        print("  - Your login session will be automatically saved")
+        print("  - Just press ENTER to continue (no need to log in again)")
+        print("\n💡 Tip: The browser profile is saved in ./browser_profile/")
+        print("   Delete this folder if you want to clear saved sessions.")
+        print("="*70 + "\n")
+        
+        # Block until user is ready
+        await asyncio.get_event_loop().run_in_executor(None, input, "Press ENTER when you're logged in and ready to continue...")
+        print("\n✓ Starting agent...\n")
+        await asyncio.sleep(1)
+    
+    # Step counter for clean logging
+    step_counter = [0]
+    
+    # Create a cleaner step callback for user-friendly output
+    async def clean_step_logger(state, action, step):
+        """Log only essential step information in a clean format."""
+        step_counter[0] = step
+        
+        # Extract action type and target
+        action_str = str(action)
+        if 'click' in action_str.lower():
+            print(f"  Step {step}: 🖱️  Clicking element...")
+        elif 'input' in action_str.lower() or 'type' in action_str.lower():
+            print(f"  Step {step}: ⌨️  Typing text...")
+        elif 'navigate' in action_str.lower():
+            print(f"  Step {step}: 🌐 Navigating...")
+        elif 'wait' in action_str.lower():
+            print(f"  Step {step}: ⏳ Waiting...")
+        elif 'done' in action_str.lower():
+            print(f"  Step {step}: ✅ Task completed!")
+        else:
+            print(f"  Step {step}: 🔧 {action_str[:50]}...")
+        
+        # Call the screenshot callback
+        await save_step_callback(state, action, step)
     
     # Create agent with callback
     agent = Agent(
         task=modified_task,
         llm=None,  # Will use OpenAI from OPENAI_API_KEY env var
         browser=browser,
-        register_new_step_callback=save_step_callback,
+        register_new_step_callback=clean_step_logger,
     )
     
     try:
         # Run the agent
-        print("🤖 Agent starting navigation...\n")
+        print("‣‣ Agent working on task:\n")
         history = await agent.run()
+        print()
         
         # Capture final state if not already captured
         try:
@@ -468,7 +658,8 @@ The goal is to SHOW the key steps of how to do this task, capturing important UI
                 current_hash = imagehash.average_hash(current_image)
                 
                 # Check if final state is different from last captured
-                if last_screenshot_hash[0] is None or (current_hash - last_screenshot_hash[0]) > 2:
+                # Use threshold of 8 for final state (consistent with main threshold)
+                if last_screenshot_hash[0] is None or (current_hash - last_screenshot_hash[0]) > 8:
                     screenshot_counter[0] += 1
                     screenshot_path = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
                     with open(screenshot_path, 'wb') as f:

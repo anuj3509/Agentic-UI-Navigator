@@ -8,59 +8,57 @@ Linear
 
 ## Workflow Steps
 
-This workflow captures 8 distinct UI states:
+This workflow captures 6 distinct UI states:
 
 ### Step 1: BrowserStateHistory(url='https://linear.app', title='Initial Actions', tabs=[], interacted_element=[None], screenshot_path=None)
 
 **Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Found initial url and automatically loaded it. Navigated to https://linear.app', extracted_content='🔗 Navigated to https://linear.app', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
 
----
-
-### Step 2: BrowserStateHistory(url='https://linear.app/', title='Linear – Plan and build products', tabs=[TabInfo(url='https://linear.app/', title='Linear – Plan and build products', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=184, backend_node_id=201, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'draggable': 'false', 'data-radix-collection-item': '', 'class': 'Header-module__PXV_2W__anchor Link-module__TqD7sG__root', 'rel': 'noopener', 'href': '/login'}, bounds=DOMRect(x=1177.7578125, y=16.0, width=61.8359375, height=32.0), x_path='html/body/div[2]/div/header/nav/div/div/ul/div/li[3]/span/a', element_hash=108122992461248341)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_1.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Log in"', include_extracted_content_only_once=False, metadata={'click_x': 1208.67578125, 'click_y': 32.0}, include_in_memory=False)]
+![Step 1](screenshots/01_step_1.png)
 
 ---
 
-### Step 3: BrowserStateHistory(url='https://linear.app/', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_2.png')
+### Step 2: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=1342, backend_node_id=1327, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'data-active': 'false', 'class': 'sc-inqUgg sc-ccQxlh hFijnx', 'draggable': 'true', 'href': '/agentic-ai-dev/projects/all'}, bounds=DOMRect(x=14.0, y=153.546875, width=216.0, height=28.0), x_path='html/body/div[1]/div[4]/div[1]/div[2]/nav/div[2]/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div/div/a', element_hash=1470561169686132893)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_1.png')
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Waited for 3 seconds', extracted_content='Waited for 3 seconds', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Projects"', include_extracted_content_only_once=False, metadata={'click_x': 122.0, 'click_y': 167.546875}, include_in_memory=False)]
 
----
-
-### Step 4: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=2980, backend_node_id=3030, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.0, y=467.0, width=288.0, height=48.0), x_path='html/body/div[1]/div/div[1]/div/div/div/div[1]/button[2]', element_hash=1528984042492111678)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_3.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata={'click_x': 840.0, 'click_y': 491.0}, include_in_memory=False)]
+![Step 2](screenshots/02_step_2.png)
 
 ---
 
-### Step 5: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3266, backend_node_id=3030, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.15625, y=467.0625, width=287.6875, height=47.953125), x_path='html/body/div[1]/div/div[1]/div/div/div/div[1]/button[2]', element_hash=1528984042492111678)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_4.png')
+### Step 3: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3668, backend_node_id=1327, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'data-active': 'true', 'class': 'sc-inqUgg sc-ccQxlh hFijnx', 'draggable': 'true', 'href': '/agentic-ai-dev/projects/all'}, bounds=DOMRect(x=14.0, y=153.546875, width=216.0, height=28.0), x_path='html/body/div[1]/div[4]/div[1]/div[2]/nav/div[2]/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div/div/a', element_hash=1470561169686132893)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_2.png')
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Projects"', include_extracted_content_only_once=False, metadata={'click_x': 122.0, 'click_y': 167.546875}, include_in_memory=False)]
 
----
-
-### Step 6: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3557, backend_node_id=3070, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='INPUT', attributes={'data-1p-ignore': 'true', 'placeholder': 'Enter your email address…', 'autocomplete': 'off', 'class': 'sc-iaHxGD sc-bIYZwL kuOWID cPOoDg', 'type': 'email', 'value': '', 'name': 'email'}, bounds=DOMRect(x=696.0, y=403.0, width=288.0, height=46.0), x_path='html/body/div[1]/div/div[1]/div/div/div/form/div/div/input', element_hash=8369304211302984308), DOMInteractedElement(node_id=3562, backend_node_id=3072, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'submit', 'class': 'sc-cpSJdf geDFHZ sc-kQBxSc iPcPzw', 'data-active': 'false'}, bounds=DOMRect(x=696.0, y=465.0, width=288.0, height=48.0), x_path='html/body/div[1]/div/div[1]/div/div/div/form/div/button', element_hash=6745398142211611163)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_5.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'demo@example.com'", extracted_content="Typed 'demo@example.com'", include_extracted_content_only_once=False, metadata={'input_x': 840.0, 'input_y': 426.0}, include_in_memory=False), ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Continue with email"', include_extracted_content_only_once=False, metadata={'click_x': 840.0, 'click_y': 489.0}, include_in_memory=False)]
+![Step 3](screenshots/03_step_3.png)
 
 ---
 
-### Step 7: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_6.png')
+### Step 4: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=6075, backend_node_id=2288, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'aria-label': 'Create new project', 'data-active': 'false', 'class': 'sc-cpSJdf idzazK'}, bounds=DOMRect(x=788.0, y=610.390625, width=207.0859375, height=28.0), x_path='html/body/div[1]/div[4]/div[2]/main/div[2]/div[2]/div/div/div[1]/div[2]/div/div/div[2]/div[2]/div/button', element_hash=1822791526024462235)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_3.png')
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Scrolled down 938px', extracted_content='🔍 Scrolled down 938px', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Create new project\nN\nthen\nP" aria-label=Create new project', include_extracted_content_only_once=False, metadata={'click_x': 891.54296875, 'click_y': 624.390625}, include_in_memory=False)]
+
+![Step 4](screenshots/04_step_4.png)
 
 ---
 
-### Step 8: BrowserStateHistory(url='https://linear.app/login', title='Linear', tabs=[TabInfo(url='https://linear.app/login', title='Linear', target_id='9908BBE5071E54F68D6A50CF47309088', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06916534-d337-7f06-8000-72dfc826b5be_1763070797/screenshots/step_7.png')
+### Step 5: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=8100, backend_node_id=2523, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='DIV', attributes={'contenteditable': 'true', 'spellcheck': 'true', 'role': 'textbox', 'aria-readonly': 'false', 'aria-multiline': 'false', 'aria-label': 'Project name', 'translate': 'no', 'class': 'ProseMirror editor ProseMirror-focused'}, bounds=DOMRect(x=428.7421875, y=178.7734375, width=812.03125, height=30.5078125), x_path='html/body/div[10]/div/div/div[2]/div/div/form/div[2]/div[2]/div/div[1]/div[1]/div/div/div', element_hash=4947264318297649604)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_4.png')
 
-**Action:** [ActionResult(is_done=True, success=False, error=None, attachments=[], long_term_memory='Task completed: False - I have navigated to Linear.app and attempted to log in to demonstrate project creation. I successful - 443 more characters', extracted_content="I have navigated to Linear.app and attempted to log in to demonstrate project creation. I successfully reached the stage where Linear sends a temporary login link to the provided email address (demo@example.com). Since I do not have access to a valid email inbox, I cannot proceed past the authentication step to access the application's main interface and demonstrate the project creation process. The next step, if I had access, would be to click the magic link in the email or enter the code manually to gain access to the Linear workspace.", include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'Test Project for Automation'", extracted_content="Typed 'Test Project for Automation'", include_extracted_content_only_once=False, metadata={'input_x': 834.5, 'input_y': 180.5}, include_in_memory=False)]
+
+![Step 5](screenshots/05_step_5.png)
+
+---
+
+### Step 6: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_5.png')
+
+**Action:** [ActionResult(is_done=True, success=True, error=None, attachments=[], long_term_memory='Task completed: True - Successfully demonstrated the steps to create a project in Linear. The project name is filled, and t - 54 more characters', extracted_content="Successfully demonstrated the steps to create a project in Linear. The project name is filled, and the 'Create project' button is visible in the viewport.", include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-13T16:53:43.242129
-- **Total States:** 8
+- **Captured:** 2025-11-15T17:19:41.519062
+- **Total States:** 6
 - **App:** linear
 
