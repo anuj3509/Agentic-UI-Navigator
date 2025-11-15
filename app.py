@@ -384,8 +384,9 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     browser = Browser(
         headless=False,
         user_data_dir=str(user_data_dir.absolute()),
-        highlight_elements=False,  # Disable visual element highlighting
-        dom_highlight_elements=False,  # Disable DOM highlighting
+        highlight_elements=False,  # Disable overlays - they clutter screenshots
+        dom_highlight_elements=False,  # Disable DOM element indexing boxes
+        paint_order_filtering=False,  # Disable visual filtering
     )
     
     # Browser Use will automatically use OPENAI_API_KEY from .env
@@ -408,10 +409,21 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     screenshot_counter = [0]  # Use list to modify in closure
     last_screenshot_hash = [None]  # Track last screenshot to detect changes
     significant_screenshots = []  # Store paths of significant screenshots
+    agent_start_time = [None]  # Track when agent starts to skip early screenshots
     
     async def save_step_callback(state, action, step):
         """Save screenshot only when UI state changes significantly."""
         try:
+            # Initialize start time on first callback
+            if agent_start_time[0] is None:
+                agent_start_time[0] = time.time()
+            
+            # Skip screenshots in the first 5 seconds (page is still loading)
+            elapsed = time.time() - agent_start_time[0]
+            if elapsed < 5.0:
+                print(f"   ⏭️  Skipping screenshot - initial page load (waiting {5.0 - elapsed:.1f}s more)")
+                return
+            
             # Access the page using Browser Use's browser session
             current_page = None
             session = None
@@ -438,28 +450,45 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
             # 2. Wait for animations to complete
             await asyncio.sleep(1.5)
             
-            # 3. Remove Browser Use's visual highlights before screenshot
+            # 3. Aggressively remove ALL Browser Use overlays and highlighting
             try:
-                # Remove orange highlight boxes that Browser Use adds
                 await current_page.evaluate("""
                     () => {
-                        // Remove all elements with Browser Use's highlight classes/styles
-                        const highlights = document.querySelectorAll('[data-highlight], [data-browser-use-highlight], .browser-use-highlight');
-                        highlights.forEach(el => el.remove());
-                        
-                        // Remove inline styles that add orange borders
+                        // Remove all elements with extremely high z-index (overlays)
                         const allElements = document.querySelectorAll('*');
                         allElements.forEach(el => {
-                            if (el.style.outline && el.style.outline.includes('orange')) {
-                                el.style.outline = '';
+                            const zIndex = window.getComputedStyle(el).zIndex;
+                            if (zIndex && parseInt(zIndex) > 999999) {
+                                el.remove();
                             }
-                            if (el.style.border && el.style.border.includes('orange')) {
-                                el.style.border = '';
+                        });
+                        
+                        // Remove elements with Browser Use signatures
+                        const browserUseEls = document.querySelectorAll(
+                            '[data-browser-use], [data-browser-use-index], [id^="browser-use"], ' +
+                            '[class*="browser-use"], [data-highlight], [data-index], ' +
+                            'svg[style*="pointer-events: none"]'
+                        );
+                        browserUseEls.forEach(el => el.remove());
+                        
+                        // Remove all absolutely positioned divs at the top level with high z-index
+                        const topDivs = Array.from(document.body.children).filter(el => {
+                            if (el.tagName === 'DIV') {
+                                const style = window.getComputedStyle(el);
+                                return style.position === 'absolute' || style.position === 'fixed';
+                            }
+                            return false;
+                        });
+                        topDivs.forEach(div => {
+                            const style = window.getComputedStyle(div);
+                            const zIndex = parseInt(style.zIndex);
+                            if (zIndex > 1000) {
+                                div.remove();
                             }
                         });
                     }
                 """)
-                # Wait a bit more for the DOM to update
+                # Wait for DOM to update after removing overlays
                 await asyncio.sleep(0.5)
             except:
                 pass  # Continue even if cleanup fails
@@ -496,6 +525,43 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
             if any(pattern in current_url for pattern in ['login', 'signin', 'sign-in', 'auth', 'accounts.google', 'sso']):
                 # Skip login pages - don't capture these in the guide
                 return
+            
+            # SKIP screenshot if page is still loading (gray placeholders, no content)
+            try:
+                # Check if page has actual visible content
+                has_content = await current_page.evaluate("""
+                    () => {
+                        // Check multiple indicators that page has real content
+                        const images = document.querySelectorAll('img[src]:not([src=""])');
+                        const videos = document.querySelectorAll('video');
+                        const links = document.querySelectorAll('a[href]');
+                        const buttons = document.querySelectorAll('button');
+                        const textContent = document.body.innerText.trim();
+                        
+                        // Count actually loaded media
+                        let loadedMedia = 0;
+                        images.forEach(img => {
+                            // Check if image is loaded and visible
+                            if (img.complete && img.naturalHeight > 50) {
+                                loadedMedia++;
+                            }
+                        });
+                        videos.forEach(v => {
+                            if (v.readyState >= 2) loadedMedia++;  // HAVE_CURRENT_DATA or better
+                        });
+                        
+                        // Page must have: loaded media, links/buttons, and text
+                        return loadedMedia >= 5 && links.length > 20 && 
+                               buttons.length > 5 && textContent.length > 1000;
+                    }
+                """)
+                
+                if not has_content:
+                    # Page is still loading, skip this screenshot
+                    print(f"   ⏭️  Skipping screenshot - page still loading")
+                    return
+            except:
+                pass  # If check fails, continue with screenshot
             
             # Take screenshot in memory to check if state changed
             screenshot_bytes = await current_page.screenshot(full_page=True)
@@ -560,20 +626,22 @@ CRITICAL INSTRUCTIONS:
 
 COMPLETION CRITERIA - You are NOT done until:
 - For "search" tasks: 
-  * Type the search query
-  * Press Enter or click the Search/Submit button
-  * WAIT for results page to fully load
-  * Verify search results are visible (NOT the homepage!)
+  * Type the search query into the search box
+  * Press Enter key (preferred) OR click the Search button
+  * WAIT for the URL to change and results page to load
+  * VERIFY you can see actual search results (videos/items matching your query)
+  * The page should look COMPLETELY DIFFERENT from the homepage
 - For "create" tasks: Form is filled AND submit/create button is visible in viewport (don't click it)
 - For "filter" tasks: Filters are applied and results shown
 - For "find" tasks: The target content is visible
 - For "join/navigate" tasks: Successfully reached the destination
 
-IMPORTANT:
-- DO NOT mark task as complete until ALL criteria are met
-- For search tasks: Typing alone is NOT enough - you MUST see results
-- If you're stuck or repeating the SAME action 3+ times, try a different approach
-- Focus on completing the task correctly, not quickly
+CRITICAL FOR SEARCH TASKS:
+- After typing the query, you MUST press Enter or click Search
+- If you only typed but didn't submit, the task is INCOMPLETE
+- Search results will show on a NEW page with matching videos/content
+- The homepage feed is NOT search results - you need to submit the search
+- DO NOT mark as done until you see the results page
 
 The goal is to DEMONSTRATE the workflow efficiently, not to complete every minor detail."""
     
@@ -649,24 +717,52 @@ The goal is to DEMONSTRATE the workflow efficiently, not to complete every minor
         history = await agent.run()
         print()
         
-        # Capture final state if not already captured
+        # Capture MULTIPLE final screenshots to ensure we get the completed state
+        print("\n📸 Capturing final state screenshots...")
         try:
             if hasattr(browser, '_context') and browser._context and browser._context.pages:
                 current_page = browser._context.pages[0]
+                
+                # Wait for any final animations/loading to complete
+                await asyncio.sleep(2.0)
+                
+                # Try to wait for network idle
+                try:
+                    await current_page.wait_for_load_state('networkidle', timeout=3000)
+                except:
+                    pass
+                
+                # Capture first final screenshot
                 screenshot_bytes = await current_page.screenshot(full_page=True)
                 current_image = Image.open(io.BytesIO(screenshot_bytes))
                 current_hash = imagehash.average_hash(current_image)
                 
                 # Check if final state is different from last captured
-                # Use threshold of 8 for final state (consistent with main threshold)
-                if last_screenshot_hash[0] is None or (current_hash - last_screenshot_hash[0]) > 8:
+                if last_screenshot_hash[0] is None or (current_hash - last_screenshot_hash[0]) > 5:
                     screenshot_counter[0] += 1
                     screenshot_path = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
                     with open(screenshot_path, 'wb') as f:
                         f.write(screenshot_bytes)
-                    print(f"📸 Captured final state {screenshot_counter[0]}")
+                    print(f"   ✓ Captured final state {screenshot_counter[0]}")
+                    last_screenshot_hash[0] = current_hash
+                
+                # Wait a bit more and capture another final screenshot
+                # (in case search results or final content is still loading)
+                await asyncio.sleep(3.0)
+                screenshot_bytes_2 = await current_page.screenshot(full_page=True)
+                current_image_2 = Image.open(io.BytesIO(screenshot_bytes_2))
+                current_hash_2 = imagehash.average_hash(current_image_2)
+                
+                # Check if this second screenshot is different
+                if (current_hash_2 - current_hash) > 5:
+                    screenshot_counter[0] += 1
+                    screenshot_path_2 = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
+                    with open(screenshot_path_2, 'wb') as f:
+                        f.write(screenshot_bytes_2)
+                    print(f"   ✓ Captured additional final state {screenshot_counter[0]}")
+                    
         except Exception as e:
-            print(f"⚠ Could not capture final state: {e}")
+            print(f"   ⚠ Could not capture final state: {e}")
         
         # Save to dataset
         print("\n📁 Saving to dataset...")
