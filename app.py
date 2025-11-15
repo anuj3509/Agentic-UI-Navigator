@@ -16,6 +16,9 @@ import yaml
 import shutil
 from datetime import datetime
 import time
+import imagehash
+from PIL import Image
+import io
 
 
 def load_url_cache() -> dict:
@@ -356,12 +359,13 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     # We'll check for login in the initial actions instead
     login_detected = [False]  # Track if we've shown login prompt
     
-    # Callback to capture screenshots
+    # Callback to capture screenshots only on significant UI changes
     screenshot_counter = [0]  # Use list to modify in closure
+    last_screenshot_hash = [None]  # Track last screenshot to detect changes
+    significant_screenshots = []  # Store paths of significant screenshots
     
     async def save_step_callback(state, action, step):
-        """Save screenshot at each step and check for login pages."""
-        screenshot_counter[0] += 1
+        """Save screenshot only when UI state changes significantly."""
         try:
             # Browser Use stores the context in browser._context (private attr)
             # Access the page through the browser session
@@ -370,7 +374,7 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
             elif hasattr(browser, 'context') and browser.context and browser.context.pages:
                 current_page = browser.context.pages[0]
             else:
-                print(f"⚠ Could not access browser page for screenshot {screenshot_counter[0]}")
+                print(f"⚠ Could not access browser page")
                 return
             
             # Check if we hit a login page during navigation
@@ -381,24 +385,66 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
                     # Pause agent execution and wait for manual login
                     await wait_for_manual_login(browser, max_wait_time=180)
             
-            screenshot_path = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
-            await current_page.screenshot(path=str(screenshot_path), full_page=True)
-            print(f"📸 Captured screenshot {screenshot_counter[0]}")
+            # ✅ ADD: Wait for UI to stabilize after actions
+            await asyncio.sleep(1.5)  # Let animations/loading complete
+            
+            # Take screenshot in memory to check if state changed
+            screenshot_bytes = await current_page.screenshot(full_page=True)
+            current_image = Image.open(io.BytesIO(screenshot_bytes))
+            current_hash = imagehash.average_hash(current_image)
+            
+            # Check if this is a significant change
+            is_significant = False
+            if last_screenshot_hash[0] is None:
+                # First screenshot is always significant
+                is_significant = True
+            else:
+                # Calculate hash difference (lower = more similar)
+                hash_diff = current_hash - last_screenshot_hash[0]
+                # Lower threshold to capture more intermediate states (was 5, now 3)
+                if hash_diff > 2:
+                    is_significant = True
+            
+            if is_significant:
+                screenshot_counter[0] += 1
+                screenshot_path = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
+                
+                # Save the screenshot
+                with open(screenshot_path, 'wb') as f:
+                    f.write(screenshot_bytes)
+                
+                significant_screenshots.append(screenshot_path)
+                last_screenshot_hash[0] = current_hash
+                
+                # Extract action description
+                action_desc = ""
+                if hasattr(action, 'extracted_content'):
+                    action_desc = action.extracted_content
+                elif hasattr(action, '__str__'):
+                    action_desc = str(action)
+                
+                print(f"📸 Captured state change {screenshot_counter[0]}: {action_desc[:60]}...")
+            
         except Exception as e:
-            print(f"⚠ Could not capture screenshot: {e}")
+            print(f"⚠ Could not process screenshot: {e}")
     
-    # Modify the task to handle login gracefully
+    # Create task description for the agent
     modified_task = f"""Navigate to {app_url} and {task}.
 
 Instructions:
 1. Go to {app_url}
-2. If you see a login page, STOP immediately and use the 'done' action with success=False and explain that login is required
-3. If already logged in or no login needed, proceed to {task}
-4. If you encounter a modal, popup, or dialog - close it first before proceeding
-5. Capture the key states during this process
-6. Once the task is demonstrated (not necessarily completed end-to-end), stop
+2. If you encounter a modal, popup, or dialog - close it first before proceeding
+3. Proceed to {task} step by step
+4. Once the task is demonstrated (showing the key steps), you can stop
 
-The goal is to SHOW how to do this task, not necessarily execute every sub-step."""
+Note: The system will automatically handle login detection if needed. Continue with the task normally.
+
+The goal is to SHOW the key steps of how to do this task, capturing important UI states like:
+- Opening menus/dropdowns
+- Filling forms
+- Clicking buttons
+- Navigation changes
+- Modal/dialog interactions"""
     
     # Create agent with callback
     agent = Agent(
@@ -412,6 +458,24 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
         # Run the agent
         print("🤖 Agent starting navigation...\n")
         history = await agent.run()
+        
+        # Capture final state if not already captured
+        try:
+            if hasattr(browser, '_context') and browser._context and browser._context.pages:
+                current_page = browser._context.pages[0]
+                screenshot_bytes = await current_page.screenshot(full_page=True)
+                current_image = Image.open(io.BytesIO(screenshot_bytes))
+                current_hash = imagehash.average_hash(current_image)
+                
+                # Check if final state is different from last captured
+                if last_screenshot_hash[0] is None or (current_hash - last_screenshot_hash[0]) > 2:
+                    screenshot_counter[0] += 1
+                    screenshot_path = screenshots_dir / f"step_{screenshot_counter[0]:02d}.png"
+                    with open(screenshot_path, 'wb') as f:
+                        f.write(screenshot_bytes)
+                    print(f"📸 Captured final state {screenshot_counter[0]}")
+        except Exception as e:
+            print(f"⚠ Could not capture final state: {e}")
         
         # Save to dataset
         print("\n📁 Saving to dataset...")
