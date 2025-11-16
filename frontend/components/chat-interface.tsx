@@ -487,32 +487,33 @@ export function ChatInterface() {
             initial={{ opacity: 0 }}
             animate={{ opacity: isFocused ? 1 : 0 }}
             transition={{
-              duration: 0.6, 
+              duration: 0.8, 
             }}
           >
             <PulsingBorder
-              style={{ height: "115%", minWidth: "102%" }}
-              colorBack="hsl(0, 0%, 0%, 0)"
+              style={{ height: "146.5%", minWidth: "143%" }}
+              colorBack="hsl(0, 0%, 0%)"
               roundness={0.18}
               thickness={0}
               softness={0}
-              intensity={0.4}
+              intensity={0.3}
               bloom={2}
-              spots={3}
-              spotSize={0.3}
+              spots={2}
+              spotSize={0.25}
               pulse={0}
-              smoke={0.4}
-              smokeSize={0.5}
-              scale={0.75}
+              smoke={0.35}
+              smokeSize={0.4}
+              scale={0.7}
               rotation={0}
               offsetX={0}
               offsetY={0}
-              speed={1.2}
+              speed={1}
               colors={[
-                "hsl(29, 80%, 50%)",
-                "hsl(35, 100%, 60%)",
-                "hsl(20, 70%, 45%)",
-                "hsl(40, 90%, 55%)",
+                "hsl(29, 70%, 37%)",
+                "hsl(32, 100%, 83%)",
+                "hsl(4, 32%, 30%)",
+                "hsl(25, 60%, 50%)",
+                "hsl(0, 100%, 10%)",
               ]}
             />
           </motion.div>
