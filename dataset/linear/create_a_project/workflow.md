@@ -6,7 +6,7 @@
 
 ## Overview
 
-This guide shows you how to **create a project** in Linear through 6 step-by-step screenshots.
+This guide shows you how to **create a project** in Linear through 8 step-by-step screenshots.
 
 ## Steps
 
@@ -42,21 +42,39 @@ _Clicked the "Create New Project" button_
 
 ---
 
-### 5. Enter "automated test project"
+### 5. Enter "test project for linear task"
 
-![Enter "automated test project"](screenshots/05_step_5.png)
+![Enter "test project for linear task"](screenshots/05_step_5.png)
 
-_Entered: "automated test project"_
+_Entered: "test project for linear task"_
 
 ---
 
-### 6. Fill in Form
+### 6. Enter "this is a test summary."
+
+![Enter "this is a test summary."](screenshots/06_step_6.png)
+
+_Entered: "this is a test summary."_
+
+---
+
+### 7. Fill in Form
+
+![Fill in Form](screenshots/07_step_7.png)
+
+_Entered: "this is a detailed description for the test project."_
+
+---
+
+### 8. Task Completed Successfully
+
+_Task completed: True - Successfully demonstrated the creation of a new project by filling all required fields and making th - 34 more characters_
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-15T23:26:44.491380
-- **Total States:** 6
+- **Captured:** 2025-11-16T00:35:49.307477
+- **Total States:** 8
 - **App:** linear
 

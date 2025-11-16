@@ -151,3 +151,13 @@
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: rgba(251, 146, 60, 0.8);
 }
+
+/* Shimmer animation for border effect */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

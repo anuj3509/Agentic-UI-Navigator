@@ -482,41 +482,21 @@ export function ChatInterface() {
         )}
 
         <div className="relative">
-          <motion.div
-            className="absolute w-full h-full z-0 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isFocused ? 1 : 0 }}
-            transition={{
-              duration: 0.8, 
-            }}
-          >
-            <PulsingBorder
-              style={{ height: "146.5%", minWidth: "143%" }}
-              colorBack="hsl(0, 0%, 0%)"
-              roundness={0.18}
-              thickness={0}
-              softness={0}
-              intensity={0.3}
-              bloom={2}
-              spots={2}
-              spotSize={0.25}
-              pulse={0}
-              smoke={0.35}
-              smokeSize={0.4}
-              scale={0.7}
-              rotation={0}
-              offsetX={0}
-              offsetY={0}
-              speed={1}
-              colors={[
-                "hsl(29, 70%, 37%)",
-                "hsl(32, 100%, 83%)",
-                "hsl(4, 32%, 30%)",
-                "hsl(25, 60%, 50%)",
-                "hsl(0, 100%, 10%)",
-              ]}
+          {isFocused && (
+            <motion.div
+              className="absolute -inset-[0.5%] z-0 rounded-2xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                background: 'linear-gradient(90deg, hsl(29, 70%, 50%), hsl(32, 100%, 60%), hsl(25, 60%, 50%), hsl(35, 90%, 55%))',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 3s linear infinite',
+                filter: 'blur(2px)',
+              }}
             />
-          </motion.div>
+          )}
 
           <motion.div
             className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/80 rounded-2xl p-5 z-10 shadow-2xl backdrop-blur-xl border"
