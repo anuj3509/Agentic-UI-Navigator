@@ -47,6 +47,43 @@ def save_url_cache(cache: dict):
         json.dump(cache, f, indent=2)
 
 
+def extract_search_query_from_task(task: Optional[str], app_name: Optional[str] = None) -> str:
+    """Best-effort extraction of the search query from the task description."""
+    if not task:
+        return ""
+    
+    query = task.strip()
+    lower = query.lower()
+    
+    if "search for" in lower:
+        idx = lower.find("search for")
+        query = query[idx + len("search for"):].strip(" ,.")
+    elif lower.startswith("search "):
+        query = query[len("search "):].strip(" ,.")
+    
+    # Remove trailing phrases like "on youtube"
+    trailing_phrases = [
+        "on youtube",
+        "on google",
+        "on the web",
+        "online",
+        "on the internet",
+        "in youtube",
+        "in google",
+    ]
+    if app_name:
+        trailing_phrases.append(f"on {app_name.lower()}")
+        trailing_phrases.append(f"in {app_name.lower()}")
+    
+    lower_query = query.lower()
+    for phrase in trailing_phrases:
+        if lower_query.endswith(phrase):
+            query = query[: -len(phrase)].strip(" ,.")
+            break
+    
+    return query.strip('" ').strip()
+
+
 async def parse_question(question: str) -> dict:
     """Parse natural language question to extract app, task, URL, and auth requirements."""
     load_dotenv()
@@ -410,6 +447,54 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
     last_screenshot_hash = [None]  # Track last screenshot to detect changes
     significant_screenshots = []  # Store paths of significant screenshots
     agent_start_time = [None]  # Track when agent starts to skip early screenshots
+
+    async def ensure_search_results_visible():
+        """If this is a search task and no results are shown, auto-submit the search query."""
+        if not task or "search" not in task.lower():
+            return False
+        
+        current_page = None
+        if hasattr(browser, '_context') and browser._context and browser._context.pages:
+            current_page = browser._context.pages[0]
+        elif hasattr(browser, 'context') and browser.context and browser.context.pages:
+            current_page = browser.context.pages[0]
+        
+        if not current_page:
+            return False
+        
+        current_url = current_page.url.lower()
+        search_indicators = ['results', 'search?', 'search=', 'query=', 'search/']
+        if any(ind in current_url for ind in search_indicators):
+            return False  # Already on results page
+        
+        query = extract_search_query_from_task(task, app_name)
+        if not query:
+            return False
+        
+        print("   ↻ Detected missing search results. Auto-submitting the search query to show results...")
+        
+        selectors = [
+            'input[type="search"]',
+            'input[placeholder*="search" i]',
+            'input[name*="search" i]',
+            'input[id*="search" i]',
+            'textarea[placeholder*="search" i]',
+        ]
+        
+        for sel in selectors:
+            try:
+                element = await current_page.query_selector(sel)
+                if element:
+                    await element.click()
+                    await element.fill(query)
+                    await element.press('Enter')
+                    await current_page.wait_for_load_state('networkidle', timeout=6000)
+                    await asyncio.sleep(2.0)
+                    return True
+            except Exception:
+                continue
+        
+        return False
     
     async def save_step_callback(state, action, step):
         """Save screenshot only when UI state changes significantly."""
@@ -559,6 +644,17 @@ The goal is to SHOW how to do this task, not necessarily execute every sub-step.
                 if not has_content:
                     # Page is still loading, skip this screenshot
                     print(f"   ⏭️  Skipping screenshot - page still loading")
+                    return
+                
+                # Skip if skeleton loading components are still visible
+                skeleton_present = await current_page.evaluate("""
+                    () => !!document.querySelector(
+                        '.skeleton, [class*="skeleton"], ytd-rich-grid-skeleton, ' +
+                        '#masthead-skeleton, [placeholder][aria-hidden="true"]'
+                    )
+                """)
+                if skeleton_present:
+                    print("   ⏭️  Skipping screenshot - skeleton placeholders detected")
                     return
             except:
                 pass  # If check fails, continue with screenshot
@@ -717,6 +813,12 @@ The goal is to DEMONSTRATE the workflow efficiently, not to complete every minor
         history = await agent.run()
         print()
         
+        # For search tasks, ensure results are actually visible (auto-submit if needed)
+        forced_search = await ensure_search_results_visible()
+        if forced_search:
+            # Reset hash so final screenshots are always captured after auto-search
+            last_screenshot_hash[0] = None
+        
         # Capture MULTIPLE final screenshots to ensure we get the completed state
         print("\n📸 Capturing final state screenshots...")
         try:
@@ -780,10 +882,20 @@ The goal is to DEMONSTRATE the workflow efficiently, not to complete every minor
         print(f"\nTotal steps captured: {len(history.history)}")
         print("="*70 + "\n")
         
+        # Return success info
+        return {
+            "success": True,
+            "dataset_path": dataset_path,
+            "app_name": app_name,
+            "task": task,
+            "num_steps": len(history.history)
+        }
+        
     except Exception as e:
         print(f"\n✗ Error: {e}")
         import traceback
         traceback.print_exc()
+        return {"success": False, "error": str(e)}
     
     finally:
         # Cleanup temp screenshots

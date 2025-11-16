@@ -1,64 +1,62 @@
 # Create A Project
 
-## Task Query
-create a project
-
-## Application
-Linear
-
-## Workflow Steps
-
-This workflow captures 6 distinct UI states:
-
-### Step 1: BrowserStateHistory(url='https://linear.app', title='Initial Actions', tabs=[], interacted_element=[None], screenshot_path=None)
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Found initial url and automatically loaded it. Navigated to https://linear.app', extracted_content='🔗 Navigated to https://linear.app', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 1](screenshots/01_step_1.png)
+**Application:** Linear
 
 ---
 
-### Step 2: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=1342, backend_node_id=1327, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'data-active': 'false', 'class': 'sc-inqUgg sc-ccQxlh hFijnx', 'draggable': 'true', 'href': '/agentic-ai-dev/projects/all'}, bounds=DOMRect(x=14.0, y=153.546875, width=216.0, height=28.0), x_path='html/body/div[1]/div[4]/div[1]/div[2]/nav/div[2]/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div/div/a', element_hash=1470561169686132893)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_1.png')
+## Overview
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Projects"', include_extracted_content_only_once=False, metadata={'click_x': 122.0, 'click_y': 167.546875}, include_in_memory=False)]
+This guide demonstrates **create a project** through 6 step-by-step screenshots.
 
-![Step 2](screenshots/02_step_2.png)
+## Steps
 
----
+### 1. Navigate to Page
 
-### Step 3: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/team/AGE/active', title='Agentic-ai-dev › Active issues', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3668, backend_node_id=1327, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'data-active': 'true', 'class': 'sc-inqUgg sc-ccQxlh hFijnx', 'draggable': 'true', 'href': '/agentic-ai-dev/projects/all'}, bounds=DOMRect(x=14.0, y=153.546875, width=216.0, height=28.0), x_path='html/body/div[1]/div[4]/div[1]/div[2]/nav/div[2]/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div/div/a', element_hash=1470561169686132893)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_2.png')
+![Navigate to Page](screenshots/01_step_1.png)
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Projects"', include_extracted_content_only_once=False, metadata={'click_x': 122.0, 'click_y': 167.546875}, include_in_memory=False)]
-
-![Step 3](screenshots/03_step_3.png)
+_🔗 Navigated to https://linear.app_
 
 ---
 
-### Step 4: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=6075, backend_node_id=2288, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'type': 'button', 'aria-label': 'Create new project', 'data-active': 'false', 'class': 'sc-cpSJdf idzazK'}, bounds=DOMRect(x=788.0, y=610.390625, width=207.0859375, height=28.0), x_path='html/body/div[1]/div[4]/div[2]/main/div[2]/div[2]/div/div/div[1]/div[2]/div/div/div[2]/div[2]/div/button', element_hash=1822791526024462235)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_3.png')
+### 2. Click Element
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Create new project\nN\nthen\nP" aria-label=Create new project', include_extracted_content_only_once=False, metadata={'click_x': 891.54296875, 'click_y': 624.390625}, include_in_memory=False)]
+![Click Element](screenshots/02_step_2.png)
 
-![Step 4](screenshots/04_step_4.png)
-
----
-
-### Step 5: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=8100, backend_node_id=2523, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='DIV', attributes={'contenteditable': 'true', 'spellcheck': 'true', 'role': 'textbox', 'aria-readonly': 'false', 'aria-multiline': 'false', 'aria-label': 'Project name', 'translate': 'no', 'class': 'ProseMirror editor ProseMirror-focused'}, bounds=DOMRect(x=428.7421875, y=178.7734375, width=812.03125, height=30.5078125), x_path='html/body/div[10]/div/div/div[2]/div/div/form/div[2]/div[2]/div/div[1]/div[1]/div/div/div', element_hash=4947264318297649604)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_4.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'Test Project for Automation'", extracted_content="Typed 'Test Project for Automation'", include_extracted_content_only_once=False, metadata={'input_x': 834.5, 'input_y': 180.5}, include_in_memory=False)]
-
-![Step 5](screenshots/05_step_5.png)
+_Clicked a "Projects"_
 
 ---
 
-### Step 6: BrowserStateHistory(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', tabs=[TabInfo(url='https://linear.app/agentic-ai-dev/projects/all', title='Projects', target_id='6471B832D81DAA0EACA0132A43CA9310', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_06918fc6-a19a-7ccd-8000-f58f52a38974_1763245162/screenshots/step_5.png')
+### 3. Wait for Page Load
 
-**Action:** [ActionResult(is_done=True, success=True, error=None, attachments=[], long_term_memory='Task completed: True - Successfully demonstrated the steps to create a project in Linear. The project name is filled, and t - 54 more characters', extracted_content="Successfully demonstrated the steps to create a project in Linear. The project name is filled, and the 'Create project' button is visible in the viewport.", include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Wait for Page Load](screenshots/03_step_3.png)
+
+_Waited for 1 seconds_
+
+---
+
+### 4. Click Action Button
+
+![Click Action Button](screenshots/04_step_4.png)
+
+_Clicked button "Create new project\nN\nthen\nP" aria-label=Create new project_
+
+---
+
+### 5. Enter Information
+
+![Enter Information](screenshots/05_step_5.png)
+
+---
+
+### 6. View Results
+
+_Task completed: True - Successfully demonstrated the workflow for creating a project in Linear. The project name and summar - 63 more characters_
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-15T17:19:41.519062
+- **Captured:** 2025-11-15T22:08:46.534230
 - **Total States:** 6
 - **App:** linear
 

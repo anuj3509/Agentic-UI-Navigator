@@ -18,6 +18,75 @@ class DocsGenerator:
         """
         self.dataset_dir = Path(dataset_dir)
     
+    def _generate_step_title(self, step_num: int, action: str, description: str) -> str:
+        """Generate a clean, descriptive title for a step."""
+        # Try to extract meaningful action from the action string
+        action_lower = action.lower()
+        
+        # Common patterns to create meaningful titles
+        if 'click' in action_lower:
+            if 'search' in action_lower or 'input' in action_lower:
+                return "Enter Search Query"
+            elif 'button' in action_lower:
+                return "Click Action Button"
+            elif 'link' in action_lower:
+                return "Navigate to Page"
+            else:
+                return "Click Element"
+        elif 'type' in action_lower or 'input' in action_lower:
+            return "Enter Information"
+        elif 'go to' in action_lower or 'navigate' in action_lower:
+            return "Navigate to Page"
+        elif 'scroll' in action_lower:
+            return "Scroll Page"
+        elif 'wait' in action_lower:
+            return "Wait for Page Load"
+        elif 'search' in action_lower:
+            return "Search"
+        elif 'open' in action_lower:
+            return "Open Application"
+        elif 'result' in action_lower or 'display' in action_lower:
+            return "View Results"
+        elif 'complete' in action_lower or 'done' in action_lower:
+            return "Task Completed"
+        else:
+            # Fall back to a generic but numbered title
+            return f"Step {step_num}"
+    
+    def _clean_action_description(self, action: str) -> str:
+        """Extract clean, human-readable description from action string."""
+        if not action:
+            return ""
+        
+        # Check if it's an ActionResult verbose output
+        if action.startswith('[ActionResult('):
+            # Try to extract just the extracted_content or long_term_memory
+            import re
+            
+            # Try to find extracted_content
+            match = re.search(r"extracted_content='([^']*)'", action)
+            if match:
+                content = match.group(1)
+                # Skip if it's an error or too verbose
+                if content and not content.startswith('Error:') and len(content) < 150:
+                    return content
+            
+            # Try to find long_term_memory
+            match = re.search(r"long_term_memory='([^']*)'", action)
+            if match:
+                content = match.group(1)
+                if content and not content.startswith('Error:') and len(content) < 150:
+                    return content
+            
+            # If we can't extract anything useful, return empty
+            return ""
+        
+        # If it's already clean text, return it
+        if len(action) < 200 and '[' not in action and '(' not in action:
+            return action
+        
+        return ""
+    
     def generate_workflow_markdown(
         self,
         task_dir: str,
@@ -35,40 +104,45 @@ class DocsGenerator:
         """
         task_path = Path(task_dir)
         
-        # Start markdown content
-        md_content = f"""# {metadata['task_name'].replace('_', ' ').title()}
+        # Start markdown content - Create a clean, professional title
+        task_title = metadata['task_query'].strip()
+        if not task_title.endswith('?'):
+            task_title = metadata['task_name'].replace('_', ' ').title()
+        
+        md_content = f"""# {task_title}
 
-## Task Query
-{metadata['task_query']}
+**Application:** {metadata['app_name'].title()}
 
-## Application
-{metadata['app_name'].title()}
+---
 
-## Workflow Steps
+## Overview
 
-This workflow captures {metadata['num_states']} distinct UI states:
+This guide demonstrates **{task_title.lower()}** through {metadata['num_states']} step-by-step screenshots.
+
+## Steps
 
 """
         
-        # Add each state
+        # Add each state with descriptive titles
         for state in metadata['states']:
             step_num = state['step']
             description = state.get('description', 'UI State')
             action = state.get('action_taken', '')
-            reasoning = state.get('reasoning', '')
             screenshot_rel = state.get('screenshot', '')
             
-            md_content += f"### Step {step_num}: {description}\n\n"
+            # Generate a clean step title from the action
+            step_title = self._generate_step_title(step_num, action, description)
             
-            if action:
-                md_content += f"**Action:** {action}\n\n"
-            
-            if reasoning:
-                md_content += f"**Reasoning:** {reasoning}\n\n"
+            md_content += f"### {step_num}. {step_title}\n\n"
             
             # Add screenshot
             if screenshot_rel:
-                md_content += f"![Step {step_num}]({screenshot_rel})\n\n"
+                md_content += f"![{step_title}]({screenshot_rel})\n\n"
+            
+            # Extract clean action description (remove ActionResult verbose output)
+            clean_action = self._clean_action_description(action)
+            if clean_action and len(clean_action) > 5:
+                md_content += f"_{clean_action}_\n\n"
             
             md_content += "---\n\n"
         
