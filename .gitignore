@@ -25,5 +25,8 @@ browser_profile/
 .vscode/
 .idea/
 
+# Node modules
+node_modules/
+
 # OS
 .DS_Store
