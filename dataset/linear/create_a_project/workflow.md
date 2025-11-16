@@ -6,23 +6,23 @@
 
 ## Overview
 
-This guide demonstrates **create a project** through 6 step-by-step screenshots.
+This guide shows you how to **create a project** in Linear through 6 step-by-step screenshots.
 
 ## Steps
 
-### 1. Navigate to Page
+### 1. Open Linear.App',
 
-![Navigate to Page](screenshots/01_step_1.png)
+![Open Linear.App',](screenshots/01_step_1.png)
 
 _🔗 Navigated to https://linear.app_
 
 ---
 
-### 2. Click Element
+### 2. Click "Projects"
 
-![Click Element](screenshots/02_step_2.png)
+![Click "Projects"](screenshots/02_step_2.png)
 
-_Clicked a "Projects"_
+_Clicked the "Projects" button_
 
 ---
 
@@ -34,29 +34,29 @@ _Waited for 3 seconds_
 
 ---
 
-### 4. Click Action Button
+### 4. Click "Create New Project"
 
-![Click Action Button](screenshots/04_step_4.png)
+![Click "Create New Project"](screenshots/04_step_4.png)
 
-_Clicked button "Create new project\nN\nthen\nP" aria-label=Create new project_
-
----
-
-### 5. Enter Information
-
-![Enter Information](screenshots/05_step_5.png)
+_Clicked the "Create New Project" button_
 
 ---
 
-### 6. View Results
+### 5. Enter "automated test project"
 
-_Task completed: True - Successfully demonstrated the project creation workflow in Linear. The project name and summary have - 57 more characters_
+![Enter "automated test project"](screenshots/05_step_5.png)
+
+_Entered: "automated test project"_
+
+---
+
+### 6. Fill in Form
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-15T22:25:38.637398
+- **Captured:** 2025-11-15T23:26:44.491380
 - **Total States:** 6
 - **App:** linear
 

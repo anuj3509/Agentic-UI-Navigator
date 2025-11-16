@@ -19,38 +19,58 @@ class DocsGenerator:
         self.dataset_dir = Path(dataset_dir)
     
     def _generate_step_title(self, step_num: int, action: str, description: str) -> str:
-        """Generate a clean, descriptive title for a step."""
-        # Try to extract meaningful action from the action string
+        """Generate a descriptive, user-friendly title from the action."""
+        import re
+        
         action_lower = action.lower()
         
-        # Common patterns to create meaningful titles
-        if 'click' in action_lower:
-            if 'search' in action_lower or 'input' in action_lower:
-                return "Enter Search Query"
+        # Extract specific button/link/element text from action
+        # Pattern 1: Clicked button "text" or Clicked a "text"
+        button_match = re.search(r'clicked\s+(?:button|a)\s+"([^"]+)"', action_lower)
+        if button_match:
+            button_text = button_match.group(1).strip()
+            # Clean up newlines and extra characters
+            button_text = button_text.split('\\n')[0].strip()
+            if button_text and len(button_text) < 50:
+                return f'Click "{button_text.title()}"'
+        
+        # Pattern 2: Typed 'text' or Filled in 'text'
+        type_match = re.search(r"(?:typed|filled)\s+'([^']+)'", action_lower)
+        if type_match:
+            typed_text = type_match.group(1).strip()
+            if typed_text and len(typed_text) < 50:
+                return f'Enter "{typed_text}"'
+        
+        # Pattern 3: Navigated to URL
+        nav_match = re.search(r'navigated to\s+(https?://[^\s]+)', action_lower)
+        if nav_match:
+            url = nav_match.group(1)
+            domain = re.sub(r'https?://(www\.)?', '', url).split('/')[0]
+            # Remove common TLDs for cleaner names
+            domain_clean = re.sub(r'\.(app|com|io|net|org)$', '', domain)
+            return f"Open {domain_clean.title()}"
+        
+        # Fallback to generic but descriptive titles
+        if 'navigated to' in action_lower or '🔗' in action:
+            if 'http' in action_lower:
+                return "Open Application"
+            return "Navigate to Page"
+        elif 'clicked' in action_lower:
+            if 'projects' in action_lower:
+                return "Go to Projects"
             elif 'button' in action_lower:
-                return "Click Action Button"
-            elif 'link' in action_lower:
-                return "Navigate to Page"
+                return "Click Button"
             else:
                 return "Click Element"
-        elif 'type' in action_lower or 'input' in action_lower:
-            return "Enter Information"
-        elif 'go to' in action_lower or 'navigate' in action_lower:
-            return "Navigate to Page"
+        elif 'typed' in action_lower or 'filled' in action_lower:
+            return "Fill in Form"
+        elif 'waited' in action_lower:
+            return "Wait for Page Load"
+        elif 'task completed' in action_lower:
+            return "Task Completed Successfully"
         elif 'scroll' in action_lower:
             return "Scroll Page"
-        elif 'wait' in action_lower:
-            return "Wait for Page Load"
-        elif 'search' in action_lower:
-            return "Search"
-        elif 'open' in action_lower:
-            return "Open Application"
-        elif 'result' in action_lower or 'display' in action_lower:
-            return "View Results"
-        elif 'complete' in action_lower or 'done' in action_lower:
-            return "Task Completed"
         else:
-            # Fall back to a generic but numbered title
             return f"Step {step_num}"
     
     def _clean_action_description(self, action: str) -> str:
@@ -58,11 +78,27 @@ class DocsGenerator:
         if not action:
             return ""
         
+        import re
+        
+        # Extract specific useful information
+        # Pattern 1: Clicked button with details
+        if 'clicked button' in action.lower() or 'clicked a' in action.lower():
+            match = re.search(r'clicked\s+(?:button|a)\s+"([^"]+)"', action.lower())
+            if match:
+                button_text = match.group(1).split('\\n')[0].strip()
+                if button_text and len(button_text) < 100:
+                    return f'Clicked the "{button_text.title()}" button'
+        
+        # Pattern 2: Typed text
+        if 'typed' in action.lower():
+            match = re.search(r"typed\s+'([^']+)'", action.lower())
+            if match:
+                typed_text = match.group(1)
+                if len(typed_text) < 100:
+                    return f'Entered: "{typed_text}"'
+        
         # Check if it's an ActionResult verbose output
         if action.startswith('[ActionResult('):
-            # Try to extract just the extracted_content or long_term_memory
-            import re
-            
             # Try to find extracted_content
             match = re.search(r"extracted_content='([^']*)'", action)
             if match:
@@ -109,6 +145,13 @@ class DocsGenerator:
         if not task_title.endswith('?'):
             task_title = metadata['task_name'].replace('_', ' ').title()
         
+        # Create grammatically correct overview
+        task_action = task_title.lower()
+        if task_action.startswith('how to ') or task_action.startswith('how do ') or task_action.startswith('how can '):
+            # Remove "how to/do/can" prefix for the overview
+            task_action = task_action.replace('how to ', '').replace('how do i ', '').replace('how can i ', '')
+            task_action = task_action.replace('?', '').strip()
+        
         md_content = f"""# {task_title}
 
 **Application:** {metadata['app_name'].title()}
@@ -117,7 +160,7 @@ class DocsGenerator:
 
 ## Overview
 
-This guide demonstrates **{task_title.lower()}** through {metadata['num_states']} step-by-step screenshots.
+This guide shows you how to **{task_action}** in {metadata['app_name'].title()} through {metadata['num_states']} step-by-step screenshots.
 
 ## Steps
 
