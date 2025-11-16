@@ -30,7 +30,7 @@ _Clicked a "Projects"_
 
 ![Wait for Page Load](screenshots/03_step_3.png)
 
-_Waited for 1 seconds_
+_Waited for 3 seconds_
 
 ---
 
@@ -50,13 +50,13 @@ _Clicked button "Create new project\nN\nthen\nP" aria-label=Create new project_
 
 ### 6. View Results
 
-_Task completed: True - Successfully demonstrated the workflow for creating a project in Linear. The project name and summar - 63 more characters_
+_Task completed: True - Successfully demonstrated the project creation workflow in Linear. The project name and summary have - 57 more characters_
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-15T22:08:46.534230
+- **Captured:** 2025-11-15T22:25:38.637398
 - **Total States:** 6
 - **App:** linear
 

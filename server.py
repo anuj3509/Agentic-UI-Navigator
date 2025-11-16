@@ -279,23 +279,125 @@ async def get_workflow(app_name: str, task_name: str):
 
 
 @app.get("/api/download/workflow/{app_name}/{task_name}")
-async def download_workflow(app_name: str, task_name: str):
+async def download_workflow_pdf(app_name: str, task_name: str):
     """
-    Download the workflow markdown file.
+    Download the workflow as a PDF file with embedded images.
     """
+    import markdown
+    from weasyprint import HTML, CSS
+    import tempfile
+    
     workflow_path = Path("dataset") / app_name.lower() / task_name.lower().replace(" ", "_") / "workflow.md"
     
     if not workflow_path.exists():
         raise HTTPException(status_code=404, detail="Workflow not found")
     
-    # Create a safe filename
-    safe_filename = f"{app_name}_{task_name}_guide.md".replace(" ", "_").lower()
-    
-    return FileResponse(
-        workflow_path,
-        media_type="text/markdown",
-        filename=safe_filename
-    )
+    try:
+        # Read markdown content
+        with open(workflow_path, 'r', encoding='utf-8') as f:
+            md_content = f.read()
+        
+        # Convert markdown to HTML
+        html_content = markdown.markdown(md_content, extensions=['extra', 'codehilite'])
+        
+        # Get base directory for images
+        base_dir = workflow_path.parent
+        
+        # Replace relative image paths with absolute paths
+        import re
+        def replace_image_path(match):
+            rel_path = match.group(1)
+            abs_path = (base_dir / rel_path).resolve()
+            return f'<img src="file://{abs_path}"'
+        
+        html_content = re.sub(r'<img src="([^"]+)"', replace_image_path, html_content)
+        
+        # Create styled HTML
+        styled_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <style>
+                @page {{
+                    size: A4;
+                    margin: 2cm;
+                }}
+                body {{
+                    font-family: 'Arial', sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 100%;
+                }}
+                h1 {{
+                    color: #ea580c;
+                    border-bottom: 3px solid #ea580c;
+                    padding-bottom: 10px;
+                    margin-top: 0;
+                }}
+                h2 {{
+                    color: #ea580c;
+                    margin-top: 30px;
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 5px;
+                }}
+                h3 {{
+                    color: #f97316;
+                    margin-top: 20px;
+                }}
+                img {{
+                    max-width: 100%;
+                    height: auto;
+                    margin: 15px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    page-break-inside: avoid;
+                }}
+                hr {{
+                    border: none;
+                    border-top: 1px solid #ddd;
+                    margin: 20px 0;
+                }}
+                strong {{
+                    color: #ea580c;
+                }}
+                em {{
+                    color: #666;
+                    font-size: 0.9em;
+                }}
+                p {{
+                    margin: 10px 0;
+                }}
+                ul {{
+                    margin: 10px 0;
+                    padding-left: 30px;
+                }}
+            </style>
+        </head>
+        <body>
+            {html_content}
+        </body>
+        </html>
+        """
+        
+        # Generate PDF
+        pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
+        HTML(string=styled_html, base_url=str(base_dir)).write_pdf(pdf_file.name)
+        pdf_file.close()
+        
+        # Create safe filename
+        safe_filename = f"{app_name}_{task_name}_guide.pdf".replace(" ", "_").lower()
+        
+        # Return PDF file
+        return FileResponse(
+            pdf_file.name,
+            media_type="application/pdf",
+            filename=safe_filename,
+            background=None
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate PDF: {str(e)}")
 
 
 if __name__ == "__main__":

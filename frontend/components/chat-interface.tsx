@@ -30,6 +30,7 @@ export function ChatInterface() {
   const [statusMessage, setStatusMessage] = useState("")
   const wsRef = useRef<WebSocket | null>(null)
   const { toast } = useToast()
+  const hasAddedWorkflow = useRef(false)
 
   // WebSocket connection for real-time updates
   useEffect(() => {
@@ -49,27 +50,36 @@ export function ChatInterface() {
           setStatusMessage("")
           setIsLoading(false)
           
-          // Update the last user message to add workflow viewer
-          setMessages(prev => {
-            // Remove any "Processing..." assistant message
-            const filtered = prev.filter(msg => !(msg.role === "assistant" && msg.status === "pending"))
+          // Only add workflow once (prevent duplicates from multiple WebSocket messages)
+          if (!hasAddedWorkflow.current) {
+            hasAddedWorkflow.current = true
             
-            // Add success message with workflow viewer
-            return [...filtered, {
-              id: Date.now().toString(),
-              content: `Guide generated successfully!`,
-              role: "assistant",
-              timestamp: new Date(),
-              status: "success",
-              metadata: data,
-              showWorkflow: true
-            }]
-          })
-          
-          toast({
-            title: "Success!",
-            description: data.message,
-          })
+            // Update the last user message to add workflow viewer
+            setMessages(prev => {
+              // Remove any "Processing..." assistant message
+              const filtered = prev.filter(msg => !(msg.role === "assistant" && msg.status === "pending"))
+              
+              // Check if workflow already exists
+              const hasWorkflow = filtered.some(msg => msg.showWorkflow)
+              if (hasWorkflow) return filtered
+              
+              // Add success message with workflow viewer
+              return [...filtered, {
+                id: Date.now().toString(),
+                content: `Guide generated successfully!`,
+                role: "assistant",
+                timestamp: new Date(),
+                status: "success",
+                metadata: data,
+                showWorkflow: true
+              }]
+            })
+            
+            toast({
+              title: "Success!",
+              description: data.message,
+            })
+          }
         } else if (data.type === "error") {
           setStatusMessage("❌ " + data.message)
           setIsLoading(false)
@@ -115,6 +125,9 @@ export function ChatInterface() {
 
   const handleSubmit = async () => {
     if (!inputValue.trim() || isLoading) return
+    
+    // Reset workflow flag for new query
+    hasAddedWorkflow.current = false
     
     const userMessage: Message = {
       id: Date.now().toString(),
