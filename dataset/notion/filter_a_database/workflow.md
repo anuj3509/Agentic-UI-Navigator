@@ -1,208 +1,86 @@
 # Filter A Database
 
-## Task Query
-filter a database
-
-## Application
-Notion
-
-## Workflow Steps
-
-This workflow captures 24 distinct UI states:
-
-### Step 1: BrowserStateHistory(url='https://www.notion.so', title='Initial Actions', tabs=[], interacted_element=[None], screenshot_path=None)
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Found initial url and automatically loaded it. Navigated to https://www.notion.so', extracted_content='🔗 Navigated to https://www.notion.so', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 1](screenshots/01_step_1.png)
+**Application:** Notion
 
 ---
 
-### Step 2: BrowserStateHistory(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', tabs=[TabInfo(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=257, backend_node_id=295, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'class': 'globalNavigation_link__ofzIw globalNavigation_dropdownTrigger__Vd0Te', 'aria-haspopup': 'true', 'aria-expanded': 'false'}, bounds=DOMRect(x=934.828125, y=18.0, width=89.3125, height=30.0), x_path='html/body/div[1]/div/div/div[1]/div/nav/div/div[2]/div[2]/button', element_hash=494527320546989180)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_1.png')
+## Overview
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Explore"', include_extracted_content_only_once=False, metadata={'click_x': 979.484375, 'click_y': 33.0}, include_in_memory=False)]
+This guide shows you how to **filter a database** in Notion through 9 step-by-step screenshots.
 
-![Step 2](screenshots/02_step_2.png)
+## Steps
 
----
+### 1. Open Notion.So',
 
-### Step 3: BrowserStateHistory(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', tabs=[TabInfo(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=3075, backend_node_id=385, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'href': '/templates'}, bounds=DOMRect(x=1223.25, y=124.359375, width=346.75, height=26.015625), x_path='html/body/div[1]/div/div/div[1]/div/nav/div/div[2]/div[2]/div/div/div/div[4]/div/div/a[2]', element_hash=8146804131709690786)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_2.png')
+![Open Notion.So',](screenshots/01_step_1.png)
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "Templates"', include_extracted_content_only_once=False, metadata={'click_x': 1396.625, 'click_y': 143.0}, include_in_memory=False)]
-
-![Step 3](screenshots/03_step_3.png)
+_🔗 Navigated to https://www.notion.so_
 
 ---
 
-### Step 4: BrowserStateHistory(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', tabs=[TabInfo(url='https://www.notion.com/', title='The AI workspace that works for you. | Notion', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_3.png')
+### 2. Click Element
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Waited for 1 seconds', extracted_content='Waited for 1 seconds', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Click Element](screenshots/02_step_2.png)
 
-![Step 4](screenshots/04_step_4.png)
-
----
-
-### Step 5: BrowserStateHistory(url='https://www.notion.com/templates', title='Choose from 30,000+ Notion templates | Notion Marketplace', tabs=[TabInfo(url='https://www.notion.com/templates', title='Choose from 30,000+ Notion templates | Notion Marketplace', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=9012, backend_node_id=4344, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='INPUT', attributes={'type': 'search', 'name': 'query', 'required': '', 'aria-label': 'Search template gallery', 'placeholder': 'Search 30,000+ templates', 'role': 'combobox', 'aria-autocomplete': 'list', 'aria-controls': ':r1j:', 'aria-expanded': 'false', 'class': 'input_input__PoidJ templateGalleryHeroAutocomplete_input__dE_FR templateGalleryHeroAutocomplete_variantHero__kf5i1', 'value': ''}, bounds=DOMRect(x=1128.5, y=175.0, width=400.0, height=43.0), x_path='html/body/div[1]/div/div/main/section[1]/div[1]/div[2]/form/div/div/input', element_hash=1215552273727863638), DOMInteractedElement(node_id=9028, backend_node_id=4334, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'value': '', 'title': 'Search template gallery', 'type': 'submit', 'aria-labelledby': ':r1i:', 'class': 'iconButton_button__sCCG7 iconButton_sizeMedium__tkYeo iconButton_shapeRectangular__yyL1i'}, bounds=DOMRect(x=1490.5, y=174.5, width=28.0, height=44.0), x_path='html/body/div[1]/div/div/main/section[1]/div[1]/div[2]/form/div/div/span/div/button[2]', element_hash=8319075972612445098)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_4.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'database'", extracted_content="Typed 'database'", include_extracted_content_only_once=False, metadata={'input_x': 1328.5, 'input_y': 196.5}, include_in_memory=False), ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button "Search template gallery"', include_extracted_content_only_once=False, metadata={'click_x': 1504.5, 'click_y': 196.5}, include_in_memory=False)]
-
-![Step 5](screenshots/05_step_5.png)
+_Clicked a role=treeitem "Weekly To-do List"_
 
 ---
 
-### Step 6: BrowserStateHistory(url='https://www.notion.com/templates', title='Choose from 30,000+ Notion templates | Notion Marketplace', tabs=[TabInfo(url='https://www.notion.com/templates', title='Choose from 30,000+ Notion templates | Notion Marketplace', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=11214, backend_node_id=6552, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='BUTTON', attributes={'value': 'user-research-database', 'label': 'User Research Database', 'role': 'option', 'type': 'button', 'tabindex': '-1', 'id': ':r38:', 'class': 'autocomplete_option__todR_'}, bounds=DOMRect(x=1134.5, y=392.0, width=388.0, height=68.0), x_path='html/body/div[1]/div/div/main/section[1]/div[1]/div[2]/form/div/div/ul/ul/li[4]/button', element_hash=3838539635409448033)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_5.png')
+### 3. Scroll Page
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked button role=option "User Research Database\nNotion" id=:r38:', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Scroll Page](screenshots/03_step_3.png)
 
-![Step 6](screenshots/06_step_6.png)
-
----
-
-### Step 7: BrowserStateHistory(url='https://www.notion.com/templates/search?query=database', title='Notion Template Marketplace — Search results for database', tabs=[TabInfo(url='https://www.notion.com/templates/search?query=database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=13301, backend_node_id=7710, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'class': 'DynamicModal_trigger__F5_LZ', 'aria-label': 'User Research Database', 'aria-haspopup': 'dialog', 'href': '/templates/user-research-database'}, bounds=DOMRect(x=1080.5, y=417.0, width=448.0, height=235.1875), x_path='html/body/div[1]/div/div/main/div[3]/section[1]/div[2]/div[3]/section/div[2]/a', element_hash=1109664739440472358)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_6.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a aria-label=User Research Databa', include_extracted_content_only_once=False, metadata={'click_x': 1304.5, 'click_y': 534.59375}, include_in_memory=False)]
-
-![Step 7](screenshots/07_step_7.png)
+_🔍 Scrolled down 938px_
 
 ---
 
-### Step 8: BrowserStateHistory(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=15310, backend_node_id=8677, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'class': 'button_button__atjat button_buttonVariantSecondary__cZi4H button_buttonSizeM__NexGD', 'href': 'https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88', 'rel': 'noopener', 'target': '_blank', 'style': 'text-align: center;', 'data-airgap-id': '356'}, bounds=DOMRect(x=936.4375, y=178.5, width=139.609375, height=36.0), x_path='html/body/div[2]/div[3]/div/section/article/header/span/div/span[1]/div/a', element_hash=1179632798520256872)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_7.png')
+### 4. Click Element
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "View template"', include_extracted_content_only_once=False, metadata={'click_x': 1113.5078125, 'click_y': 196.5}, include_in_memory=False)]
+![Click Element](screenshots/04_step_4.png)
 
-![Step 8](screenshots/08_step_8.png)
-
----
-
-### Step 9: BrowserStateHistory(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=16841, backend_node_id=8677, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='A', attributes={'class': 'button_button__atjat button_buttonVariantSecondary__cZi4H button_buttonSizeM__NexGD', 'href': 'https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88', 'rel': 'noopener', 'target': '_blank', 'style': 'text-align: center;', 'data-airgap-id': '356'}, bounds=DOMRect(x=1043.703125, y=178.5, width=139.609375, height=36.0), x_path='html/body/div[2]/div[3]/div/section/article/header/span/div/span[1]/div/a', element_hash=1179632798520256872)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_8.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked a "View template"', include_extracted_content_only_once=False, metadata={'click_x': 1113.5078125, 'click_y': 196.5}, include_in_memory=False)]
-
-![Step 9](screenshots/09_step_9.png)
+_Clicked a role=treeitem "Project Planner"_
 
 ---
 
-### Step 10: BrowserStateHistory(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_9.png')
+### 5. Click Button
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Switched to tab #FEE8', extracted_content='Switched to tab #FEE8', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Click Button](screenshots/05_step_5.png)
 
-![Step 10](screenshots/10_step_10.png)
-
----
-
-### Step 11: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=322, backend_node_id=11, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='DIV', attributes={'role': 'button', 'tabindex': '0', 'aria-expanded': 'false', 'aria-label': 'Filter', 'aria-haspopup': 'dialog', 'style': 'user-select: none; transition: background 20ms ease-in; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 6px; height: 28px; width: 28px; padding: 6px; font-size: 14px; color: var(--c-texSec); fill: var(--c-icoSec); font-weight: 400; line-height: 1;'}, bounds=DOMRect(x=1500.0, y=311.390625, width=28.0, height=28.0), x_path='html/body/div[1]/div/div/div[1]/div/div[2]/main/div/div/div[4]/div[1]/div[2]/div/div[2]/div/div[1]/div/div/div', element_hash=9161615129108075926)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_10.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked div role=button aria-label=Filter', include_extracted_content_only_once=False, metadata={'click_x': 1514.0, 'click_y': 325.390625}, include_in_memory=False)]
-
-![Step 11](screenshots/11_step_11.png)
+_Clicked div role=button aria-label=Filter_
 
 ---
 
-### Step 12: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_11.png')
+### 6. Scroll Page
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Scrolled down 0.5 pages', extracted_content='🔍 Scrolled down 0.5 pages', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Scroll Page](screenshots/06_step_6.png)
 
-![Step 12](screenshots/12_step_12.png)
-
----
-
-### Step 13: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_12.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory='Scrolled up 0.5 pages', extracted_content='🔍 Scrolled up 0.5 pages', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 13](screenshots/13_step_13.png)
+_🔍 Scrolled down 0.5 pages_
 
 ---
 
-### Step 14: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=2964, backend_node_id=11, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='DIV', attributes={'role': 'button', 'tabindex': '0', 'aria-expanded': 'false', 'aria-label': 'Filter', 'aria-haspopup': 'dialog', 'style': 'user-select: none; transition: background 20ms ease-in; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 6px; height: 28px; width: 28px; padding: 6px; font-size: 14px; color: var(--c-texSec); fill: var(--c-icoSec); font-weight: 400; line-height: 1; background: var(--ca-butHovBac);'}, bounds=DOMRect(x=1500.0, y=311.390625, width=28.0, height=28.0), x_path='html/body/div[1]/div/div/div[1]/div/div[2]/main/div/div/div[4]/div[1]/div[2]/div/div[2]/div/div[1]/div/div/div', element_hash=9161615129108075926)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_13.png')
+### 7. Click Element
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked div role=button aria-label=Filter', include_extracted_content_only_once=False, metadata={'click_x': 1514.0, 'click_y': 325.390625}, include_in_memory=False)]
+![Click Element](screenshots/07_step_7.png)
 
-![Step 14](screenshots/14_step_14.png)
-
----
-
-### Step 15: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_14.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Requested screenshot for next observation', include_extracted_content_only_once=False, metadata={'include_screenshot': True}, include_in_memory=False)]
-
-![Step 15](screenshots/15_step_15.png)
+_Clicked div role=option "Status" id=:r1p:_
 
 ---
 
-### Step 16: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_15.png')
+### 8. Click Element
 
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Element not found', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+![Click Element](screenshots/08_step_8.png)
 
-![Step 16](screenshots/16_step_16.png)
-
----
-
-### Step 17: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_16.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Element not found', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 17](screenshots/17_step_17.png)
+_Clicked div role=menuitem "Done" id=:r20:_
 
 ---
 
-### Step 18: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_17.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error="JavaScript Execution Failed:\nJavaScript execution error: Uncaught\n\nValidated Code (after quote fixing):\n(function(){try{const el=document.evaluate(`//div[text()='+ Filter']`,, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;if(el){el.click();return 'Clicked + Filter'}else{return 'Element not found'}}catch(e){return 'Error: '+e.message}})()\n", attachments=None, long_term_memory=None, extracted_content=None, include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 18](screenshots/18_step_18.png)
-
----
-
-### Step 19: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_18.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error="JavaScript Execution Failed:\nJavaScript execution error: Uncaught\n\nValidated Code (after quote fixing):\n(function(){try{const el=document.evaluate('//div[text()=\\\\'Filter\\\\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;if(el){el.click();return 'Clicked Filter text'}else{const el2=document.evaluate('//div[text()=\\\\'+ Filter\\\\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;if(el2){el2.click();return 'Clicked + Filter'}else{return 'Element not found'}}}catch(e){return 'Error: '+e.message}})()\n", attachments=None, long_term_memory=None, extracted_content=None, include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 19](screenshots/19_step_19.png)
-
----
-
-### Step 20: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_19.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Element not found', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 20](screenshots/20_step_20.png)
-
----
-
-### Step 21: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_20.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Element not found', include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
-
-![Step 21](screenshots/21_step_21.png)
-
----
-
-### Step 22: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=9832, backend_node_id=14, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='DIV', attributes={'role': 'button', 'tabindex': '0', 'aria-label': 'Search', 'style': 'user-select: none; transition: background 20ms ease-in; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 6px; height: 28px; width: 28px; padding: 6px; font-size: 14px; color: var(--c-texSec); fill: var(--c-icoSec); font-weight: 400; line-height: 1;'}, bounds=DOMRect(x=1556.0, y=311.390625, width=28.0, height=28.0), x_path='html/body/div[1]/div/div/div[1]/div/div[2]/main/div/div/div[4]/div[1]/div[2]/div/div[2]/div/div[3]/div', element_hash=4605023055515136342)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_21.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory=None, extracted_content='Clicked div role=button aria-label=Search', include_extracted_content_only_once=False, metadata={'click_x': 1570.0, 'click_y': 325.390625}, include_in_memory=False)]
-
-![Step 22](screenshots/22_step_22.png)
-
----
-
-### Step 23: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[DOMInteractedElement(node_id=10683, backend_node_id=1048, frame_id=None, node_type=<NodeType.ELEMENT_NODE: 1>, node_value='', node_name='INPUT', attributes={'placeholder': 'Type to search...', 'type': 'text', 'style': 'font-size: inherit; line-height: inherit; border: none; background: none; width: 100%; display: block; resize: none; padding: 0px;'}, bounds=DOMRect(x=1584.0, y=316.390625, width=0.0, height=17.0), x_path='html/body/div[1]/div/div/div[1]/div/div[2]/main/div/div/div[4]/div[1]/div[2]/div/div[2]/div/div[3]/div[2]/div/div/input', element_hash=6376705089990645248)], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_22.png')
-
-**Action:** [ActionResult(is_done=False, success=None, error=None, attachments=None, long_term_memory="Typed 'Completed'", extracted_content="Typed 'Completed'", include_extracted_content_only_once=False, metadata={'input_x': 1507.0, 'input_y': 324.890625}, include_in_memory=False)]
-
-![Step 23](screenshots/23_step_23.png)
-
----
-
-### Step 24: BrowserStateHistory(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', tabs=[TabInfo(url='https://www.notion.com/templates/user-research-database', title='Notion Template Marketplace — Search results for database', target_id='FFD53612A1D7B658015575C96BD1056C', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='FCF7F9DA4DE2B89C950D6E3160C0FEE8', parent_target_id=None), TabInfo(url='https://notion-templates.notion.site/c3eec6d5b8724ed6ba75306ec8006d88?v=4289e2c45f034aa598d91b2ca6bcc25a', title='User Research', target_id='95C71D770C0915FDA8BDE61027FDA769', parent_target_id=None)], interacted_element=[None], screenshot_path='/var/folders/g1/573ndn_10n1725bppbrkwyfr0000gn/T/browser_use_agent_069166df-c0a7-78e1-8000-3cfc3f8099dc_1763077628/screenshots/step_23.png')
-
-**Action:** [ActionResult(is_done=True, success=True, error=None, attachments=[], long_term_memory="Task completed: True - Successfully demonstrated filtering a Notion database by using the search function to filter for 'Co - 18 more characters", extracted_content="Successfully demonstrated filtering a Notion database by using the search function to filter for 'Completed' sessions.", include_extracted_content_only_once=False, metadata=None, include_in_memory=False)]
+### 9. Navigate to Page
 
 ---
 
 ## Metadata
 
-- **Captured:** 2025-11-13T18:48:31.071931
-- **Total States:** 24
+- **Captured:** 2025-11-17T10:22:09.540314
+- **Total States:** 9
 - **App:** notion
 
